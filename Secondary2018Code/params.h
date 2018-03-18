@@ -33,4 +33,6 @@ const int SPARE2 = 9;
 const int SPARE3 = 8;
 const int SPARE4 = 7;
 
+const int DYNAMIXEL_CONTROL = 30;
+
 #endif /* PARAMS_H_ */
