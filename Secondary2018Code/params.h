@@ -7,6 +7,7 @@
 
 #ifndef PARAMS_H_
 #define PARAMS_H_
+#include "Arduino.h"
 
 const int ENCODEUR1_A = 21;
 const int ENCODEUR1_B = 20;
@@ -34,5 +35,12 @@ const int SPARE3 = 8;
 const int SPARE4 = 7;
 
 const int DYNAMIXEL_CONTROL = 30;
+
+const float WHEEL_DIAMETER = 54.0;
+const float WHEELBASE = 199.0;
+
+const float INCR_TO_MM = PI*WHEEL_DIAMETER/800.0;
+
+const float CONTROL_PERIOD = 0.05;
 
 #endif /* PARAMS_H_ */

@@ -1,18 +1,23 @@
 // Do not remove the include below
 #include "Secondary2018Code.h"
+#include "Metro.h"
+#include "params.h"
+#include "odometry.h"
+
+Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 
 
 //The setup function is called once at startup of the sketch
 void setup()
 {
-	pinMode(13, OUTPUT);
+	Serial.begin(115200);
+	Odometry::init();
 }
 
 // The loop function is called in an endless loop
 void loop()
 {
-	digitalWrite(13, HIGH);
-	delay(200);
-	digitalWrite(13, LOW);
-	delay(200);
+	if(controlTime.check()) {
+		Odometry::update();
+	}
 }
