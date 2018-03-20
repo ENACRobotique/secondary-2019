@@ -15,6 +15,8 @@ namespace Odometry{
 
 	float pos_x, pos_y, pos_theta;
 
+	float speed, omega;
+
 	void init(){
 		pinMode(ENCODEUR1_A,INPUT_PULLUP);
 		pinMode(ENCODEUR1_B,INPUT_PULLUP);
@@ -26,7 +28,7 @@ namespace Odometry{
 		attachInterrupt(ENCODEUR2_A, isr2, RISING);
 		_incr2 = 0;
 
-		pos_x = pos_y = pos_theta = 0;
+		pos_x = pos_y = pos_theta = speed = omega = 0;
 
 
 	}
@@ -63,13 +65,19 @@ namespace Odometry{
 		pos_x = pos_x + length*cos(pos_theta + angle/2.0);
 		pos_y = pos_y + length*sin(pos_theta + angle/2.0);
 		pos_theta = pos_theta + angle;
+		speed = length / CONTROL_PERIOD;
+		omega = angle / CONTROL_PERIOD;
 
 
 		Serial.print(pos_x);
 		Serial.print("\t");
 		Serial.print(pos_y);
 		Serial.print("\t");
-		Serial.println(pos_theta);
+		Serial.print(pos_theta);
+		Serial.print("\t");
+		Serial.print(speed);
+		Serial.print("\t");
+		Serial.println(omega);
 	}
 }
 
