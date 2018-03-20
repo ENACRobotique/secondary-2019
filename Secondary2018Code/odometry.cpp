@@ -51,6 +51,28 @@ namespace Odometry{
 			}
 		}
 
+	float get_pos_x(){
+		return pos_x;
+	}
+
+	float get_pos_y(){
+		return pos_y;
+	}
+
+	float get_pos_theta(){
+		return pos_theta;
+	}
+
+	float get_speed(){
+		return speed;
+	}
+
+	float get_omega(){
+		return omega;
+	}
+
+
+
 	void update() {
 		cli();
 		int incr1 = _incr1;
