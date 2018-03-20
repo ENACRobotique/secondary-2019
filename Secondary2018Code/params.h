@@ -16,8 +16,8 @@ const int ENCODEUR2_B = 16;
 
 const int MOT1_PWM = 6;
 const int MOT1_DIR = 5;
-const int MOT2_PWM = 28;
-const int MOT2_DIR = 29;
+const int MOT2_PWM = 29;
+const int MOT2_DIR = 28;
 
 const int SERVO1 = 39;
 const int SERVO2 = 15;
