@@ -8,7 +8,8 @@
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 Metro test = Metro(3000);
 int i=0;
-int tab[] = {50, 100, 0, -50, -100, 0};
+int tab_speed[] = {0, 100, 0, -100};
+float tab_omega[] = {0, 0.5, 0, -0.5} ;
 //The setup function is called once at startup of the sketch
 void setup()
 {
@@ -25,7 +26,9 @@ void loop()
 		MotorControl::update();
 	}
 	if(test.check()) {
-		MotorControl::set_cons(tab[i%6], 0);
+		MotorControl::set_cons(tab_speed[i%4], tab_omega[i%4]);
 		i++;
+
 	}
+	//MotorControl::set_cons(50, 0);
 }

@@ -28,15 +28,20 @@ namespace MotorControl {
 
 	float cons_speed;
 	float cons_omega;
-	float Ki_speed = 0;
-	float Kp_speed = 1;
+	float Ki_speed = 0.2;
+	float Kp_speed = 0.5;
 	float Kd_speed = 0;
-	float Ki_omega = 0;
-	float Kp_omega = 1;
+	float Ki_omega = 20;
+	float Kp_omega = 30;
 	float Kd_omega = 0;
 
 	float error_integrale_speed;
 	float error_integrale_omega;
+
+	float delta_speed;
+	float delta_omega;
+	float prev_speed_error;
+	float prev_omega_error;
 
 	void set_cons(float speed, float omega) {
 		cons_speed = speed;
@@ -52,6 +57,7 @@ namespace MotorControl {
 		pinMode(MOT2_PWM, OUTPUT);
 		cons_omega = cons_speed = 0;
 		error_integrale_omega = error_integrale_speed = 0;
+		prev_omega_error = prev_speed_error = 0;
 
 
 	}
@@ -60,11 +66,15 @@ namespace MotorControl {
 
 		float error_speed = cons_speed - Odometry::get_speed();
 		error_integrale_speed += error_speed;
-		float cmd_speed = Kp_speed * error_speed + Ki_speed * error_integrale_speed;
+		delta_speed = error_speed - prev_speed_error;
+		prev_speed_error = error_integrale_speed;
+		float cmd_speed = Kp_speed * error_speed + Ki_speed * error_integrale_speed + Kd_speed * delta_speed;
 
 		float error_omega = cons_omega - Odometry::get_omega();
 		error_integrale_omega += error_omega;
-		float cmd_omega = Kp_omega * error_omega + Ki_omega * error_integrale_omega;
+		delta_omega = error_omega - prev_omega_error;
+		prev_omega_error = error_omega;
+		float cmd_omega = Kp_omega * error_omega + Ki_omega * error_integrale_omega + Kd_omega * delta_omega;
 
 		int cmd_mot1 = clamp(-255, 255, cmd_speed - cmd_omega);
 		int cmd_mot2 = -clamp(-255, 255, cmd_speed + cmd_omega);
@@ -74,12 +84,18 @@ namespace MotorControl {
 		analogWrite(MOT2_PWM, abs(cmd_mot2));
 		digitalWrite(MOT2_DIR, direction_sign(cmd_mot2));
 
+
+		Serial.print(cons_speed);
+		Serial.print("\t");
+		Serial.print(Odometry::get_speed());
+		Serial.print("\t");
+		Serial.print(cons_omega);
+		Serial.print("\t");
+		Serial.println(Odometry::get_omega());
+		/*Serial.print("\t");
 		Serial.print(error_speed);
 		Serial.print("\t");
 		Serial.print(error_omega);
-		Serial.print("\t");
-		Serial.print(cmd_mot1);
-		Serial.print("\t");
-		Serial.println(cmd_mot2);
+		Serial.println("\t");*/
 	}
 }
