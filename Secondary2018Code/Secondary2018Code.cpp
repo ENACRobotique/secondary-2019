@@ -4,12 +4,17 @@
 #include "params.h"
 #include "odometry.h"
 #include "motorControl.h"
+#include "trajectory.h"
+#include "behaviour.h"
 
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 Metro test = Metro(3000);
+
 int i=0;
-int tab_speed[] = {0, 100, 0, -100};
-float tab_omega[] = {0, 0.5, 0, -0.5} ;
+
+float x = -30;
+float y = -30;
+
 //The setup function is called once at startup of the sketch
 void setup()
 {
@@ -26,8 +31,13 @@ void loop()
 		MotorControl::update();
 	}
 	if(test.check()) {
-		MotorControl::set_cons(tab_speed[i%4], tab_omega[i%4]);
-		i++;
+		Serial.print("Test encore");
+		if(i==0){
+			i=turn(x,y);
+		}
+		else{
+			forward(x,y);
+		}
 
 	}
 	//MotorControl::set_cons(50, 0);

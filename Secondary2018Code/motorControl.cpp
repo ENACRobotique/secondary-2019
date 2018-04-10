@@ -48,7 +48,13 @@ namespace MotorControl {
 		cons_omega = omega;
 	}
 
+	float get_cons_speed(){
+		return cons_speed;
+	}
 
+	float get_cons_omega(){
+		return cons_omega;
+	}
 
 	void init() {
 		pinMode(MOT1_DIR, OUTPUT);

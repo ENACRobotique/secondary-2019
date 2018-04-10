@@ -36,6 +36,17 @@ const int SPARE4 = 7;
 
 const int DYNAMIXEL_CONTROL = 30;
 
+const int ACCEL_MAX = 10;
+const int SPEED_MAX = 100;
+
+const int ACCEL_OMEGA_MAX = 0.1;
+const int OMEGA_MAX = 1;
+
+const int ADMITTED_POSITION_ERROR = 0.5;
+const int ADMITTED_ANGLE_ERROR = 0.05;
+
+const int MAX_DRIFT = 0.1;
+
 const float WHEEL_DIAMETER = 54.0;
 const float WHEELBASE = 199.0;
 
