@@ -9,6 +9,8 @@
 #define PARAMS_H_
 #include "Arduino.h"
 
+const unsigned long TIME_RACE = 100;
+
 const int ENCODEUR1_A = 21;
 const int ENCODEUR1_B = 20;
 const int ENCODEUR2_A = 17;
