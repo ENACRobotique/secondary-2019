@@ -15,11 +15,10 @@
 
 int turn(float x, float y)
 {
-	Serial.print("test");
 	int i=0;
-	MotorControl::set_cons(0,turn_to(x,y));
-	Serial.println(MotorControl::get_cons_omega());
-	if (MotorControl::get_cons_omega() == 0)
+	float cons_omega = turn_to(x,y);
+	MotorControl::set_cons(0,cons_omega);
+	if ((Odometry::get_omega() < ADMITTED_OMEGA_ERROR) && (cons_omega == 0))
 	{
 		i=1;
 	}
@@ -29,5 +28,15 @@ int turn(float x, float y)
 
 void forward(float x, float y)
 {
-	MotorControl::set_cons(move_to(x,y),turn_to(x,y));
+	float cons_speed = move_to(x,y);
+	float cons_omega = turn_to(x,y);
+	if(cons_speed ==0){
+		cons_omega = 0;
+	}
+	/*Serial.print("Consignes forward");
+	Serial.print("\t");
+	Serial.print(cons_speed);
+	Serial.print("\t");
+	Serial.println(cons_omega);*/
+	MotorControl::set_cons(cons_speed,cons_omega);
 }

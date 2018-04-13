@@ -8,8 +8,8 @@
 #ifndef TRAJ_H_
 #define TRAJ_H_
 
-int move_to(int x_cons,int y_cons);
-int turn_to(int x_cons, int y_cons);
-int center_radian(float angle);
+float move_to(float x_cons,float y_cons);
+float turn_to(float x_cons, float y_cons);
+float center_radian(float angle);
 
 #endif /* TRAJ_H_ */
