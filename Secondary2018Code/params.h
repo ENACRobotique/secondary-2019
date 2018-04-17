@@ -36,16 +36,17 @@ const int SPARE4 = 7;
 
 const int DYNAMIXEL_CONTROL = 30;
 
-const int ACCEL_MAX = 200;
-const int SPEED_MAX = 200;
+const int ACCEL_MAX = 150;
+const int SPEED_MAX = 350;
 
-const float ACCEL_OMEGA_MAX = 0.1;
-const float OMEGA_MAX = 0.7;
+const float ACCEL_OMEGA_MAX = 0.5;
+const float OMEGA_MAX = 1;
 
-const float ADMITTED_OMEGA_ERROR = 0.01;
+const float ADMITTED_OMEGA_ERROR = 0.03;
+const float ADMITTED_SPEED_ERROR = 10;
 
-const float ADMITTED_POSITION_ERROR = 1;
-const float ADMITTED_ANGLE_ERROR = 0.01;
+const float ADMITTED_POSITION_ERROR = 10;
+const float ADMITTED_ANGLE_ERROR = 0.03;
 
 const float MAX_DRIFT = 0.1;
 
@@ -54,6 +55,7 @@ const float WHEELBASE = 199.0;
 
 const float INCR_TO_MM = PI*WHEEL_DIAMETER/800.0;
 
-const float CONTROL_PERIOD = 0.05;
+const float CONTROL_PERIOD = 0.02;
+const float NAVIGATOR_TIME_PERIOD = 0.05;
 
 #endif /* PARAMS_H_ */
