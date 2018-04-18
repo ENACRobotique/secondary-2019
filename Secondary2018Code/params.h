@@ -63,4 +63,6 @@ const float NAVIGATOR_TIME_PERIOD = 0.05;
 const unsigned long THROW_DURATION = 15;
 const unsigned long BEE_LAUNCH_DURATION = 3;
 
+const int NB_US = 4;
+
 #endif /* PARAMS_H_ */
