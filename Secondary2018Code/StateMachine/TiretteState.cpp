@@ -6,6 +6,7 @@
  */
 
 #include "TiretteState.h"
+#include "MoveToWaterState.h"
 #include "Arduino.h"
 #include "../params.h"
 #include "FSMSupervisor.h"
@@ -34,7 +35,7 @@ void TiretteState::doIt() {
 	if (digitalRead(TIRETTE)) {
 		Serial.println("On change d'etat : gooooo!!");
 		time_start = millis();
-		fsmSupervisor.setNextState(&tiretteState); //TODO : définir un état au départ de la course
+		fsmSupervisor.setNextState(&moveToWaterState);
 	}
 
 }

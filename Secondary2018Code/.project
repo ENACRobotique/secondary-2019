@@ -37,9 +37,14 @@
 			<location>/usr/share/arduino-1.8.5/hardware/teensy/avr/cores/teensy3</location>
 		</link>
 		<link>
-			<name>librairies/Metro</name>
+			<name>libraries/Metro</name>
 			<type>2</type>
 			<location>/usr/share/arduino-1.8.5/hardware/teensy/avr/libraries/Metro</location>
+		</link>
+		<link>
+			<name>libraries/Servo</name>
+			<type>2</type>
+			<location>/usr/share/arduino-1.8.5/hardware/teensy/avr/libraries/Servo</location>
 		</link>
 	</linkedResources>
 </projectDescription>

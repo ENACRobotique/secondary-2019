@@ -9,6 +9,7 @@
 #include "Arduino.h"
 #include "AbstractState.h"
 #include "TiretteState.h"
+#include "DeadState.h"
 #include "../params.h"
 
 FSMSupervisor fsmSupervisor = FSMSupervisor();
@@ -29,7 +30,7 @@ void FSMSupervisor::setNextState(AbstractState* state) {
 
 void FSMSupervisor::update() {
 	if (millis() - tiretteState.get_time_start() > TIME_RACE){
-		fsmSupervisor.setNextState(&tiretteState); //TODO Créer un état où le robot s'arrête
+		fsmSupervisor.setNextState(&deadState); //TODO Créer un état où le robot s'arrête
 	}
 
 	if(nextState != NULL){

@@ -45,4 +45,7 @@ const float INCR_TO_MM = PI*WHEEL_DIAMETER/800.0;
 
 const float CONTROL_PERIOD = 0.05;
 
+const unsigned long THROW_DURATION = 15;
+const unsigned long BEE_LAUNCH_DURATION = 3;
+
 #endif /* PARAMS_H_ */
