@@ -64,4 +64,6 @@ const float NAVIGATOR_TIME_PERIOD = 0.05;
 const unsigned long THROW_DURATION = 15;
 const unsigned long SERVO_MOVEMENT_DURATION = 5;
 
+const int NB_US = 4;
+
 #endif /* PARAMS_H_ */

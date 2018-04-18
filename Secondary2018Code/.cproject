@@ -23,6 +23,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/libraries/Metro}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/libraries/DynamixelSerial4}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Servo}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Wire/utility}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.1849652262" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
@@ -30,6 +32,8 @@
 								<option id="io.sloeber.compiler.c.sketch.option.incpath.545784362" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Servo}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Wire/utility}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.23915367" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
@@ -37,6 +41,8 @@
 								<option id="io.sloeber.compiler.asm.sketch.option.incpath.818177719" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Servo}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Wire/utility}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.38858763" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>
