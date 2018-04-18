@@ -48,7 +48,13 @@ namespace MotorControl {
 		cons_omega = omega;
 	}
 
+	float get_cons_speed(){
+		return cons_speed;
+	}
 
+	float get_cons_omega(){
+		return cons_omega;
+	}
 
 	void init() {
 		pinMode(MOT1_DIR, OUTPUT);
@@ -85,14 +91,14 @@ namespace MotorControl {
 		digitalWrite(MOT2_DIR, direction_sign(cmd_mot2));
 
 
-		Serial.print(cons_speed);
+		/*Serial.print(cons_speed);
 		Serial.print("\t");
 		Serial.print(Odometry::get_speed());
 		Serial.print("\t");
 		Serial.print(cons_omega);
 		Serial.print("\t");
 		Serial.println(Odometry::get_omega());
-		/*Serial.print("\t");
+		Serial.print("\t");
 		Serial.print(error_speed);
 		Serial.print("\t");
 		Serial.print(error_omega);

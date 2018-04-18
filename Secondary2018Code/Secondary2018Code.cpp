@@ -4,18 +4,33 @@
 #include "params.h"
 #include "odometry.h"
 #include "motorControl.h"
+#include "Navigator.h"
 
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
-Metro test = Metro(3000);
+Metro navigatorTime = Metro(NAVIGATOR_TIME_PERIOD * 1000);
+
 int i=0;
-int tab_speed[] = {0, 100, 0, -100};
-float tab_omega[] = {0, 0.5, 0, -0.5} ;
+
+float x, y;
+
+bool done=false;
+
+float target[][2] = {
+		{400, -400},
+		{400, 0},
+		{0,-400},
+		{0,0}};
+
 //The setup function is called once at startup of the sketch
 void setup()
 {
 	Serial.begin(115200);
 	Odometry::init();
 	MotorControl::init();
+	navigator.move_to(target[0][0],target[0][1]);
+	delay(4000);
+	controlTime.reset();
+	navigatorTime.reset();
 }
 
 // The loop function is called in an endless loop
@@ -25,10 +40,13 @@ void loop()
 		Odometry::update();
 		MotorControl::update();
 	}
-	if(test.check()) {
-		MotorControl::set_cons(tab_speed[i%4], tab_omega[i%4]);
-		i++;
-
+	if(navigatorTime.check()) {
+		navigator.update();
+		if(navigator.isTrajectoryFinished()){
+			Serial.print("Trajectoire finie :");
+			Serial.println(i);
+			i = (1+i)%4;
+			navigator.move_to(target[i][0],target[i][1]);
+		}
 	}
-	//MotorControl::set_cons(50, 0);
 }
