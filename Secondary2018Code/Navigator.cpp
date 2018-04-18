@@ -31,6 +31,10 @@ void Navigator::move_to(float x, float y){
 	move_type = DISPLACEMENT;
 	move_state = INITIAL_TURN;
 	trajectory_done = false;
+	Serial.print("moving_to : ");
+	Serial.print(x_target);
+	Serial.print("\t");
+	Serial.println(y_target);
 }
 
 void Navigator::turn_to(float x, float y){
@@ -72,9 +76,6 @@ float Navigator::compute_cons_speed()
 			speed_cons = sgn*min(SPEED_MAX,abs(Odometry::get_speed()) + ACCEL_MAX*NAVIGATOR_TIME_PERIOD);
 		}
 	}
-	if(dist_objective < ADMITTED_POSITION_ERROR){
-		speed_cons = 0;
-	}
 	/*Serial.print("Distances estimées");
 	Serial.print("\t");
 	Serial.print(dist_fore - dist_objective);
@@ -88,41 +89,43 @@ float Navigator::compute_cons_speed()
 
 float Navigator::compute_cons_omega()
 {
-	float omega_cons, angle_fore, alpha,t_rotation_stop;
+	float omega_cons, angle_fore, alpha, t_rotation_stop;
 	int sgn;
-	alpha = center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())));
 
-	if (center_axes(alpha - Odometry::get_pos_theta()) > 0){
+	if(move_type == DISPLACEMENT){
+		alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
+	}
+	else{
+		alpha = atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x()));
+	}
+
+	if (center_radian(alpha - Odometry::get_pos_theta()) > 0){
 		sgn = 1;
 	}
 	else{
 		sgn = -1;
 	}
 	t_rotation_stop = abs(Odometry::get_omega())/ACCEL_OMEGA_MAX;
-	angle_fore = center_axes(Odometry::get_pos_theta() + sgn*(abs(Odometry::get_omega())*t_rotation_stop -1/2*ACCEL_OMEGA_MAX*pow(t_rotation_stop,2)));
-	if(abs(angle_fore - alpha) < ADMITTED_ANGLE_ERROR){
+	angle_fore = center_radian(Odometry::get_pos_theta() + sgn*(abs(Odometry::get_omega())*t_rotation_stop -1/2*ACCEL_OMEGA_MAX*pow(t_rotation_stop,2)));
+	if(abs(center_radian(angle_fore - alpha)) < ADMITTED_ANGLE_ERROR){
 		omega_cons = sgn*max(0,abs(Odometry::get_omega()) - NAVIGATOR_TIME_PERIOD*ACCEL_OMEGA_MAX);
 	}
 	else{
-		if(abs(angle_fore) - abs(alpha) < 0){
+		if(sgn*(center_radian(alpha - angle_fore)) > 0){
 			omega_cons = sgn*min(OMEGA_MAX, NAVIGATOR_TIME_PERIOD*ACCEL_OMEGA_MAX + abs(Odometry::get_omega()));
 		}
 		else{
 			omega_cons = sgn*max(0,abs(Odometry::get_omega()) - NAVIGATOR_TIME_PERIOD*ACCEL_OMEGA_MAX);
 		}
 	}
-//	if(abs(Odometry::get_pos_theta() - alpha) < ADMITTED_ANGLE_ERROR){
-//		omega_cons = 0;
-//	}
-	/*Serial.print("Consignes angles");
-	Serial.print("\t");
+	/*Serial.print("Consigne angle:");
 	Serial.print(omega_cons);
 	Serial.print("\t");
-	Serial.print(angle_fore);
-	Serial.print("\t");
+	Serial.print("Alpha:");
 	Serial.print(alpha);
 	Serial.print("\t");
-	Serial.println(Odometry::get_pos_theta());*/
+	Serial.print("angle_fore:");
+	Serial.println(angle_fore);*/
 
 	return omega_cons;
 }
@@ -132,13 +135,12 @@ void Navigator::update(){
 	switch(move_state){
 	case INITIAL_TURN:
 		if(move_type==DISPLACEMENT){
-			alpha = atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x()));
-			turn_done = ((abs(center_axes(Odometry::get_pos_theta() - alpha)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
+			alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
 		}
 		else{
 			alpha = atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x()));
-			turn_done = ((abs(center_radian(Odometry::get_pos_theta() - alpha)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
 		}
+		turn_done = ((abs(center_radian(Odometry::get_pos_theta() - alpha)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
 		if(turn_done){
 			MotorControl::set_cons(0,0);
 			switch(move_type){
@@ -148,7 +150,6 @@ void Navigator::update(){
 				break;
 			case DISPLACEMENT:
 				move_state = CRUISE;
-				Serial.print("Rotation done:");
 				break;
 			}
 			break;
@@ -194,10 +195,10 @@ float Navigator::center_axes(float angle)
 			}
 		}
 	}
-	if(abs(angle+PI) < abs(angle)){
+	if(abs(angle+PI) + ADMITTED_ANGLE_ERROR < abs(angle)){
 		angle+=PI;
 	}
-	if(abs(angle-PI) < abs(angle)){
+	if(abs(angle-PI) + ADMITTED_ANGLE_ERROR< abs(angle)){
 		angle-=PI;
 	}
 	/*Serial.println(angle);*/

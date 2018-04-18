@@ -38,11 +38,11 @@ const int SPARE4 = 7;
 
 const int DYNAMIXEL_CONTROL = 30;
 
-const int ACCEL_MAX = 150;
-const int SPEED_MAX = 350;
+const int ACCEL_MAX = 300;
+const int SPEED_MAX = 500;
 
-const float ACCEL_OMEGA_MAX = 0.5;
-const float OMEGA_MAX = 1;
+const float ACCEL_OMEGA_MAX = 1;
+const float OMEGA_MAX = 1.5;
 
 const float ADMITTED_OMEGA_ERROR = 0.03;
 const float ADMITTED_SPEED_ERROR = 10;
