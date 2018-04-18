@@ -8,7 +8,7 @@
 #include "TurnToBeeState.h"
 #include "LaunchBeeState.h"
 #include "ThrowState.h"
-#include "Navigator.h"
+#include "../Navigator.h"
 #include "Arduino.h"
 #include "../params.h"
 #include "FSMSupervisor.h"
@@ -25,7 +25,7 @@ TurnToBeeState::~TurnToBeeState() {
 
 void TurnToBeeState::enter() {
 	Serial.println("Etat rotation vers l'abeille");
-	Navigator.move_to(400,0);
+	navigator.move_to(400,0);
 	time_start = millis();
 }
 
@@ -34,10 +34,10 @@ void TurnToBeeState::leave() {
 }
 
 void TurnToBeeState::doIt() {
-	if(Navigator.isTrajectoryFinished()){
+	if(navigator.isTrajectoryFinished()){
 		fsmSupervisor.setNextState(&launchBeeState);
 	}
-	Navigator.update();
+	navigator.update();
 }
 
 void TurnToBeeState::reEnter(unsigned long interruptTime){

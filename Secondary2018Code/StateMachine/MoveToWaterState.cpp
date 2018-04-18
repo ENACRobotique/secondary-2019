@@ -7,7 +7,7 @@
 
 #include "MoveToWaterState.h"
 #include "ThrowState.h"
-#include "Navigator.h"
+#include "../Navigator.h"
 #include "Arduino.h"
 #include "../params.h"
 #include "FSMSupervisor.h"
@@ -24,7 +24,7 @@ MoveToWaterState::~MoveToWaterState() {
 
 void MoveToWaterState::enter() {
 	Serial.println("Etat déplacement vers l'eau");
-	Navigator.move_to(400,0);
+	navigator.move_to(400,0);
 	time_start = millis();
 }
 
@@ -33,10 +33,10 @@ void MoveToWaterState::leave() {
 }
 
 void MoveToWaterState::doIt() {
-	if(Navigator.isTrajectoryFinished()){
+	if(navigator.isTrajectoryFinished()){
 		fsmSupervisor.setNextState(&throwState);
 	}
-	Navigator.update();
+	navigator.update();
 }
 
 void MoveToWaterState::reEnter(unsigned long interruptTime){
