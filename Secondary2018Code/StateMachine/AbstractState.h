@@ -17,6 +17,7 @@ public:
 	virtual void doIt() = 0;
 	virtual void leave() = 0;
 	virtual void reEnter(unsigned long InterruptTime) = 0;
+	virtual void forceLeave() = 0;
 };
 
 #endif /* STATEMACHINE_ABSTRACTSTATE_H_ */

@@ -11,6 +11,7 @@
 #include "../params.h"
 #include "FSMSupervisor.h"
 #include "Servo.h"
+#include "DynamixelSerial4.h"
 
 ThrowState throwState = ThrowState();
 
@@ -26,11 +27,16 @@ ThrowState::~ThrowState() {
 void ThrowState::enter() {
 	Serial.println("Etat throw");
 	time_start = millis();
-	//TODO Create a file to control the commands of the launcher
+	analogWrite(MOT_GALET_L,42);
+	analogWrite(MOT_GALET_L,42);
+	Dynamixel.setEndless(DYNAMIXEL_ID,true);
+	Dynamixel.turn(DYNAMIXEL_ID,false,1023);
 }
 
 void ThrowState::leave() {
-
+	analogWrite(MOT_GALET_L,0);
+	analogWrite(MOT_GALET_L,0);
+	Dynamixel.turn(DYNAMIXEL_ID,false,0);
 }
 
 void ThrowState::doIt() {
@@ -42,4 +48,14 @@ void ThrowState::doIt() {
 
 void ThrowState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
+	analogWrite(MOT_GALET_L,42);
+	analogWrite(MOT_GALET_L,42);
+	Dynamixel.setEndless(DYNAMIXEL_ID,true);
+	Dynamixel.turn(DYNAMIXEL_ID,false,1023);
+}
+
+void ThrowState::forceLeave(){
+	analogWrite(MOT_GALET_L,0);
+	analogWrite(MOT_GALET_L,0);
+	Dynamixel.turn(DYNAMIXEL_ID,false,0);
 }

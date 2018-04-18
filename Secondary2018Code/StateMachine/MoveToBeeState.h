@@ -19,6 +19,7 @@ public:
 	void leave();
 	void enter();
 	void reEnter(unsigned long interruptTime);
+	void forceLeave();
 	unsigned long get_time_start(){
 		return time_start;
 	}

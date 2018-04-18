@@ -1,19 +1,19 @@
 /*
- * LaunchBeeState.h
+ * RetractArmState.h
  *
  *  Created on: 18 avr. 2018
  *      Author: Maxime
  */
 
-#ifndef STATEMACHINE_LAUNCHBEESTATE_H_
-#define STATEMACHINE_LAUNCHBEESTATE_H_
+#ifndef STATEMACHINE_RETRACTARMSTATE_H_
+#define STATEMACHINE_RETRACTARMSTATE_H_
 
 #include "AbstractState.h"
 
-class LaunchBeeState : public AbstractState {
+class RetractArmState : public AbstractState {
 public:
-	LaunchBeeState();
-	virtual ~LaunchBeeState();
+	RetractArmState();
+	virtual ~RetractArmState();
 
 	void doIt();
 	void leave();
@@ -29,6 +29,6 @@ private:
 	unsigned long time_start;
 };
 
-extern LaunchBeeState launchBeeState;
+extern RetractArmState retractArmState;
 
-#endif /* STATEMACHINE_LAUNCHBEESTATE_H_ */
+#endif /* STATEMACHINE_RETRACTARMSTATE_H_ */

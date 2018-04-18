@@ -37,6 +37,7 @@ const int SPARE3 = 8;
 const int SPARE4 = 7;
 
 const int DYNAMIXEL_CONTROL = 30;
+const int DYNAMIXEL_ID = 1;
 
 const int ACCEL_MAX = 300;
 const int SPEED_MAX = 500;
@@ -61,6 +62,6 @@ const float CONTROL_PERIOD = 0.02;
 const float NAVIGATOR_TIME_PERIOD = 0.05;
 
 const unsigned long THROW_DURATION = 15;
-const unsigned long BEE_LAUNCH_DURATION = 3;
+const unsigned long SERVO_MOVEMENT_DURATION = 5;
 
 #endif /* PARAMS_H_ */

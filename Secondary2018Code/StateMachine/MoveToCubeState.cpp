@@ -1,48 +1,48 @@
 /*
- * MoveToWaterState.cpp
+ * MoveToCubeState.cpp
  *
  *  Created on: 18 avr. 2018
  *      Author: Maxime
  */
 
-#include "MoveToWaterState.h"
+#include "MoveToCubeState.h"
 #include "ThrowState.h"
 #include "../Navigator.h"
 #include "Arduino.h"
 #include "../params.h"
 #include "FSMSupervisor.h"
 
-MoveToWaterState moveToWaterState = MoveToWaterState();
+MoveToCubeState moveToCubeState = MoveToCubeState();
 
-MoveToWaterState::MoveToWaterState() {
+MoveToCubeState::MoveToCubeState() {
 	time_start = 0;
 }
 
-MoveToWaterState::~MoveToWaterState() {
+MoveToCubeState::~MoveToCubeState() {
 	// TODO Auto-generated destructor stub
 }
 
-void MoveToWaterState::enter() {
+void MoveToCubeState::enter() {
 	Serial.println("Etat déplacement vers l'eau");
 	navigator.move_to(400,0);
 	time_start = millis();
 }
 
-void MoveToWaterState::leave() {
+void MoveToCubeState::leave() {
 
 }
 
-void MoveToWaterState::doIt() {
+void MoveToCubeState::doIt() {
 	if(navigator.isTrajectoryFinished()){
 		fsmSupervisor.setNextState(&throwState);
 	}
 	navigator.update();
 }
 
-void MoveToWaterState::reEnter(unsigned long interruptTime){
+void MoveToCubeState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
 }
 
-void MoveToWaterState::forceLeave(){
+void MoveToCubeState::forceLeave(){
 
 }

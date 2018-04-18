@@ -10,8 +10,10 @@
 #include "Arduino.h"
 #include "../params.h"
 #include "FSMSupervisor.h"
+#include "DynamixelSerial4.h"
 
 TiretteState tiretteState = TiretteState();
+Servo arm = Servo();
 
 TiretteState::TiretteState() {
 	time_start = 0;
@@ -24,7 +26,8 @@ TiretteState::~TiretteState() {
 
 void TiretteState::enter() {
 	Serial.println("Etat tirette");
-
+	Dynamixel.begin(1000000, DYNAMIXEL_CONTROL);
+	arm.attach(SERVO1);
 }
 
 void TiretteState::leave() {
@@ -41,5 +44,9 @@ void TiretteState::doIt() {
 }
 
 void TiretteState::reEnter(unsigned long interruptTime){
+
+}
+
+void TiretteState::forceLeave(){
 
 }

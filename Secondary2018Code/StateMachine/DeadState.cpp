@@ -36,3 +36,7 @@ void DeadState::doIt() {
 void DeadState::reEnter(unsigned long interruptTime){
 
 }
+
+void DeadState::forceLeave(){
+
+}

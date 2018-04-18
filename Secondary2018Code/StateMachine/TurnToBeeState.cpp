@@ -43,3 +43,7 @@ void TurnToBeeState::doIt() {
 void TurnToBeeState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
 }
+
+void TurnToBeeState::forceLeave(){
+
+}

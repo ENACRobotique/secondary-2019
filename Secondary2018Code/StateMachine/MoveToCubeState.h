@@ -1,19 +1,19 @@
 /*
- * LaunchBeeState.h
+ * MoveToCubeState.h
  *
  *  Created on: 18 avr. 2018
  *      Author: Maxime
  */
 
-#ifndef STATEMACHINE_LAUNCHBEESTATE_H_
-#define STATEMACHINE_LAUNCHBEESTATE_H_
+#ifndef STATEMACHINE_MOVETOCUBESTATE_H_
+#define STATEMACHINE_MOVETOCUBESTATE_H_
 
 #include "AbstractState.h"
 
-class LaunchBeeState : public AbstractState {
+class MoveToCubeState : public AbstractState {
 public:
-	LaunchBeeState();
-	virtual ~LaunchBeeState();
+	MoveToCubeState();
+	virtual ~MoveToCubeState();
 
 	void doIt();
 	void leave();
@@ -29,6 +29,6 @@ private:
 	unsigned long time_start;
 };
 
-extern LaunchBeeState launchBeeState;
+extern MoveToCubeState moveToCubeState;
 
-#endif /* STATEMACHINE_LAUNCHBEESTATE_H_ */
+#endif /* STATEMACHINE_MOVETOCUBESTATE_H_ */

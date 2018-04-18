@@ -19,6 +19,7 @@ public:
 	void leave();
 	void enter();
 	void reEnter(unsigned long interruptTime);
+	void forceLeave();
 };
 
 extern DeadState deadState;
