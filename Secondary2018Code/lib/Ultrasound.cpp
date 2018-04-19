@@ -42,6 +42,9 @@ int Ultrasound::update(bool doRange) {
 }
 
 bool Ultrasound::obstacleDetected() {
+	if(min_range == 0) {
+		return false;
+	}
 	return range < min_range;
 }
 

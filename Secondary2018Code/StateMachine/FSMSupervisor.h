@@ -16,11 +16,13 @@ public:
 	virtual ~FSMSupervisor();
 	void setNextState(AbstractState* state);
 	void update();
+	void init(AbstractState * state);
 
 private:
 
 	AbstractState* nextState;
 	AbstractState* currentState;
+	AbstractState* previousState;
 };
 
 extern FSMSupervisor fsmSupervisor;

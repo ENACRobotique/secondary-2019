@@ -7,10 +7,12 @@
 
 #include "USManager.h"
 #include "Ultrasound.h"
+#include "Arduino.h"
+
+USManager usManager = USManager();
 
 USManager::USManager() {
-	// TODO Auto-generated constructor stub
-
+	current_us = 0;
 }
 
 USManager::~USManager() {
@@ -36,4 +38,21 @@ void USManager::update() {
 		current_us = (current_us+1)%NB_US;
 		tab_ultrasound[current_us]->update(true);
 	}
+}
+
+bool USManager::obstacleDetected() {
+	bool obstacle_detected = false;
+	for(int i=0;i<NB_US;i++){
+		obstacle_detected = obstacle_detected || tab_ultrasound[i]->obstacleDetected();
+	}
+	return obstacle_detected;
+}
+
+uint16_t * USManager::getRanges() {
+	for(int i=0;i<NB_US;i++) {
+		//uint16_t a = tab_ranges[i];
+		//uint16_t r = tab_ultrasound[i]->getRange();
+		tab_ranges[i] = tab_ultrasound[i]->getRange();
+	}
+	return tab_ranges;
 }

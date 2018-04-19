@@ -8,6 +8,20 @@
 #ifndef STATEMACHINE_ABSTRACTSTATE_H_
 #define STATEMACHINE_ABSTRACTSTATE_H_
 
+/*
+ * example :
+ * enum services {
+	E_ULTRASOUND = 1,
+	E_BLINK = 2,
+	E_RADAR = 4,
+	E_WALL = 8,
+	...
+	}
+ */
+enum services {
+	E_ULTRASOUND = 1,
+};
+
 class AbstractState {
 public:
 	AbstractState();
@@ -18,6 +32,17 @@ public:
 	virtual void leave() = 0;
 	virtual void reEnter(unsigned long InterruptTime) = 0;
 	virtual void forceLeave() = 0;
+
+	unsigned long getFlags() const {
+		return flags;
+	}
+
+	void setFlags(unsigned long flags) {
+		this->flags = flags;
+	}
+
+protected:
+	unsigned long flags;
 };
 
 #endif /* STATEMACHINE_ABSTRACTSTATE_H_ */
