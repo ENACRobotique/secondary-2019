@@ -36,7 +36,6 @@ void MoveToWaterState::doIt() {
 	if(navigator.isTrajectoryFinished()){
 		fsmSupervisor.setNextState(&throwState);
 	}
-	navigator.update();
 }
 
 void MoveToWaterState::reEnter(unsigned long interruptTime){

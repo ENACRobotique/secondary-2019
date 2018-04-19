@@ -27,15 +27,15 @@ ThrowState::~ThrowState() {
 void ThrowState::enter() {
 	Serial.println("Etat throw");
 	time_start = millis();
-	analogWrite(MOT_GALET_L,42);
-	analogWrite(MOT_GALET_L,42);
+	analogWrite(MOT_GALET_L,22);
+	analogWrite(MOT_GALET_R,22);
 	Dynamixel.setEndless(DYNAMIXEL_ID,true);
 	Dynamixel.turn(DYNAMIXEL_ID,false,1023);
 }
 
 void ThrowState::leave() {
 	analogWrite(MOT_GALET_L,0);
-	analogWrite(MOT_GALET_L,0);
+	analogWrite(MOT_GALET_R,0);
 	Dynamixel.turn(DYNAMIXEL_ID,false,0);
 }
 
@@ -48,14 +48,14 @@ void ThrowState::doIt() {
 
 void ThrowState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	analogWrite(MOT_GALET_L,42);
-	analogWrite(MOT_GALET_L,42);
+	analogWrite(MOT_GALET_L,22);
+	analogWrite(MOT_GALET_R,22);
 	Dynamixel.setEndless(DYNAMIXEL_ID,true);
 	Dynamixel.turn(DYNAMIXEL_ID,false,1023);
 }
 
 void ThrowState::forceLeave(){
 	analogWrite(MOT_GALET_L,0);
-	analogWrite(MOT_GALET_L,0);
+	analogWrite(MOT_GALET_R,0);
 	Dynamixel.turn(DYNAMIXEL_ID,false,0);
 }

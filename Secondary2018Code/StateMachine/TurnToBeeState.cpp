@@ -37,7 +37,6 @@ void TurnToBeeState::doIt() {
 	if(navigator.isTrajectoryFinished()){
 		fsmSupervisor.setNextState(&launchBeeState);
 	}
-	navigator.update();
 }
 
 void TurnToBeeState::reEnter(unsigned long interruptTime){

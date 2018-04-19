@@ -23,7 +23,7 @@ LaunchBeeState::~LaunchBeeState() {
 }
 
 void LaunchBeeState::enter() {
-	Serial.println("Etat throw");
+	Serial.println("Etat lancer d'abeille");
 	time_start = millis();
 	arm.write(90);
 }

@@ -24,7 +24,7 @@ RetractArmState::~RetractArmState() {
 }
 
 void RetractArmState::enter() {
-	Serial.println("Etat throw");
+	Serial.println("Etat rangement du bras");
 	time_start = millis();
 	arm.write(0);
 }

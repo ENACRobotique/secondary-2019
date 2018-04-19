@@ -25,9 +25,12 @@ TiretteState::~TiretteState() {
 }
 
 void TiretteState::enter() {
+	time_start = millis();
 	Serial.println("Etat tirette");
 	Dynamixel.begin(1000000, DYNAMIXEL_CONTROL);
 	arm.attach(SERVO1);
+	pinMode(TIRETTE,INPUT_PULLUP);
+	pinMode(COLOR,INPUT_PULLUP);
 }
 
 void TiretteState::leave() {
@@ -35,7 +38,9 @@ void TiretteState::leave() {
 }
 
 void TiretteState::doIt() {
-	if (digitalRead(TIRETTE)) {
+	time_start = millis();
+	Serial.println(!digitalRead(TIRETTE));
+	if (!digitalRead(TIRETTE)) {
 		Serial.println("On change d'etat : gooooo!!");
 		time_start = millis();
 		fsmSupervisor.setNextState(&moveToWaterState);

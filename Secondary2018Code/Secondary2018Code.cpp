@@ -5,7 +5,8 @@
 #include "odometry.h"
 #include "motorControl.h"
 #include "Navigator.h"
-
+#include "StateMachine/FSMSupervisor.h"
+#include "StateMachine/TiretteState.h"
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 Metro navigatorTime = Metro(NAVIGATOR_TIME_PERIOD * 1000);
 
@@ -27,26 +28,28 @@ void setup()
 	Serial.begin(115200);
 	Odometry::init();
 	MotorControl::init();
-	navigator.move_to(target[0][0],target[0][1]);
 	delay(4000);
 	controlTime.reset();
 	navigatorTime.reset();
+	fsmSupervisor.init(&tiretteState);
+
 }
 
 // The loop function is called in an endless loop
 void loop()
 {
+	fsmSupervisor.update();
 	if(controlTime.check()) {
 		Odometry::update();
 		MotorControl::update();
 	}
 	if(navigatorTime.check()) {
 		navigator.update();
-		if(navigator.isTrajectoryFinished()){
+		/*if(navigator.isTrajectoryFinished()){
 			Serial.print("Trajectoire finie :");
 			Serial.println(i);
 			i = (1+i)%4;
 			navigator.move_to(target[i][0],target[i][1]);
-		}
+		}*/
 	}
 }

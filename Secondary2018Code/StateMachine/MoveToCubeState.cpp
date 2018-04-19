@@ -6,7 +6,7 @@
  */
 
 #include "MoveToCubeState.h"
-#include "ThrowState.h"
+#include "DeadState.h"
 #include "../Navigator.h"
 #include "Arduino.h"
 #include "../params.h"
@@ -23,7 +23,7 @@ MoveToCubeState::~MoveToCubeState() {
 }
 
 void MoveToCubeState::enter() {
-	Serial.println("Etat déplacement vers l'eau");
+	Serial.println("Etat déplacement vers le cube");
 	navigator.move_to(400,0);
 	time_start = millis();
 }
@@ -34,9 +34,8 @@ void MoveToCubeState::leave() {
 
 void MoveToCubeState::doIt() {
 	if(navigator.isTrajectoryFinished()){
-		fsmSupervisor.setNextState(&throwState);
+		fsmSupervisor.setNextState(&deadState);
 	}
-	navigator.update();
 }
 
 void MoveToCubeState::reEnter(unsigned long interruptTime){

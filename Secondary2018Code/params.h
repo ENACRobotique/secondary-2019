@@ -9,7 +9,7 @@
 #define PARAMS_H_
 #include "Arduino.h"
 
-const unsigned long TIME_RACE = 100;
+const unsigned long TIME_RACE = 100000;
 
 const int ENCODEUR1_A = 21;
 const int ENCODEUR1_B = 20;
@@ -61,8 +61,8 @@ const float INCR_TO_MM = PI*WHEEL_DIAMETER/800.0;
 const float CONTROL_PERIOD = 0.02;
 const float NAVIGATOR_TIME_PERIOD = 0.05;
 
-const unsigned long THROW_DURATION = 15;
-const unsigned long SERVO_MOVEMENT_DURATION = 5;
+const unsigned long THROW_DURATION = 7000;
+const unsigned long SERVO_MOVEMENT_DURATION = 5000;
 
 const int NB_US = 4;
 
