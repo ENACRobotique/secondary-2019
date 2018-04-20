@@ -25,7 +25,7 @@ MoveToBeeState::~MoveToBeeState() {
 
 void MoveToBeeState::enter() {
 	Serial.println("Etat déplacement vers l'abeille");
-	navigator.move_to(400,0);
+	navigator.move_to(1000,0);
 	time_start = millis();
 }
 

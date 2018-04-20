@@ -132,48 +132,67 @@ float Navigator::compute_cons_omega()
 
 void Navigator::update(){
 	float omega_cons,speed_cons,alpha,distance;
-	switch(move_state){
-	case INITIAL_TURN:
-		if(move_type==DISPLACEMENT){
-			alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
+
+	if(move_type == BRAKE){
+		int sgn = scalaire(cos(Odometry::get_pos_theta()),sin(Odometry::get_pos_theta()),x_target - Odometry::get_pos_x(),y_target - Odometry::get_pos_y());
+		speed_cons = sgn*max(0,abs(Odometry::get_speed()) - ACCEL_MAX*NAVIGATOR_TIME_PERIOD);
+		if(abs(Odometry::get_speed()) < ADMITTED_SPEED_ERROR){
+			move_state = STOPPED;
+			speed_cons = 0;
 		}
-		else{
-			alpha = atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x()));
-		}
-		turn_done = ((abs(center_radian(Odometry::get_pos_theta() - alpha)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
-		if(turn_done){
-			MotorControl::set_cons(0,0);
-			switch(move_type){
-			case TURN:
-				move_state = STOPPED;
-				trajectory_done = true;
-				break;
-			case DISPLACEMENT:
-				move_state = CRUISE;
+		MotorControl::set_cons(speed_cons,0);
+	}
+	else{
+		switch(move_state){
+		case INITIAL_TURN:
+			if(move_type==DISPLACEMENT){
+				alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
+			}
+			else{
+				alpha = atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x()));
+			}
+			turn_done = ((abs(center_radian(Odometry::get_pos_theta() - alpha)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
+			if(turn_done){
+				MotorControl::set_cons(0,0);
+				switch(move_type){
+				case TURN:
+					move_state = STOPPED;
+					trajectory_done = true;
+					break;
+				case DISPLACEMENT:
+					move_state = CRUISE;
+					break;
+				case BRAKE:
+					//Do nothing
+					break;
+				}
 				break;
 			}
+			omega_cons = compute_cons_omega();
+			MotorControl::set_cons(0,omega_cons);
+			break;
+		case CRUISE:
+			distance = sqrt(pow(x_target - Odometry::get_pos_x(),2) + pow(y_target - Odometry::get_pos_y(),2));
+			displacement_done = ((distance<ADMITTED_POSITION_ERROR)&&(Odometry::get_speed() < ADMITTED_SPEED_ERROR));
+			if(displacement_done){
+				MotorControl::set_cons(0,0);
+				move_state=STOPPED;
+				trajectory_done = true;
+				break;
+			}
+			speed_cons=compute_cons_speed();
+			omega_cons = compute_cons_omega();
+			MotorControl::set_cons(speed_cons,omega_cons);
+			break;
+		case STOPPED:
+			//do nothing
 			break;
 		}
-		omega_cons = compute_cons_omega();
-		MotorControl::set_cons(0,omega_cons);
-		break;
-	case CRUISE:
-		distance = sqrt(pow(x_target - Odometry::get_pos_x(),2) + pow(y_target - Odometry::get_pos_y(),2));
-		displacement_done = ((distance<ADMITTED_POSITION_ERROR)&&(Odometry::get_speed() < ADMITTED_SPEED_ERROR));
-		if(displacement_done){
-			MotorControl::set_cons(0,0);
-			move_state=STOPPED;
-			trajectory_done = true;
-			break;
-		}
-		speed_cons=compute_cons_speed();
-		omega_cons = compute_cons_omega();
-		MotorControl::set_cons(speed_cons,omega_cons);
-		break;
-	case STOPPED:
-		//do nothing
-		break;
 	}
+}
+
+void Navigator::forceStop(){
+	move_type = BRAKE;
 }
 
 

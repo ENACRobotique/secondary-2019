@@ -6,7 +6,8 @@
  */
 
 #include "Ultrasound.h"
-#include "Wire.h"
+//#include "WireKinetis.h"
+#include "../libraries/i2c_t3/i2c_t3.h"
 #include "Arduino.h"
 
 Ultrasound::Ultrasound() {
@@ -42,7 +43,7 @@ int Ultrasound::update(bool doRange) {
 }
 
 bool Ultrasound::obstacleDetected() {
-	if(min_range == 0) {
+	if(min_range == 0 || range == 0) {
 		return false;
 	}
 	return range < min_range;
@@ -50,31 +51,32 @@ bool Ultrasound::obstacleDetected() {
 
 int Ultrasound::startRange() {
 	// send command to start ranging
-	Wire.beginTransmission(address);
-	Wire.write(byte(0x00));      // Write to register 0
-	Wire.write(byte(0x51));      // start ranging: measure in inches (0x50), centimeters (0x51) or ping µseconds (0x52)
-	int error = (int)Wire.endTransmission();
+	Wire2.beginTransmission(address);
+	Wire2.write(byte(0x00));      // Write to register 0
+	Wire2.write(byte(0x51));      // start ranging: measure in inches (0x50), centimeters (0x51) or ping µseconds (0x52)
+	int error = (int)Wire2.endTransmission();
 	if(!error){
-	  range_time = millis();
+	  ranging = true;
 	}
+	range_time = millis();
 	return error;
 }
 
 void Ultrasound::readRangeResult() {
 	// ask data
-	Wire.beginTransmission(address);
-	Wire.write(byte(0x02));// Read data starting by register 2
+	Wire2.beginTransmission(address);
+	Wire2.write(byte(0x02));// Read data starting by register 2
 
-	if(Wire.endTransmission()){
+	if(Wire2.endTransmission()){
 		return;
 	}
 
-	Wire.requestFrom(address, uint8_t(2));    // Request 2 bytes
+	Wire2.requestFrom(address, uint8_t(2));    // Request 2 bytes
 
 	// wait for it
-	while(Wire.available() < 2);
+	while(Wire2.available() < 2);
 
 	// read, prepare and return data
-	range = Wire.read() << 8;
-	range |= Wire.read();
+	range = Wire2.read() << 8;
+	range |= Wire2.read();
 }

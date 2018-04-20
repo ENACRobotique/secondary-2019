@@ -25,7 +25,7 @@ TurnToBeeState::~TurnToBeeState() {
 
 void TurnToBeeState::enter() {
 	Serial.println("Etat rotation vers l'abeille");
-	navigator.move_to(400,0);
+	navigator.turn_to(0,0);
 	time_start = millis();
 }
 

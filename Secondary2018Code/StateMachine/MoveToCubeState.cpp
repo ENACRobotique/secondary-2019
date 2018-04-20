@@ -24,7 +24,7 @@ MoveToCubeState::~MoveToCubeState() {
 
 void MoveToCubeState::enter() {
 	Serial.println("Etat déplacement vers le cube");
-	navigator.move_to(400,0);
+	navigator.move_to(600,-200);
 	time_start = millis();
 }
 

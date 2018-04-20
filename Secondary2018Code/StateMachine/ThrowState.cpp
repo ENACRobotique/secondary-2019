@@ -17,7 +17,8 @@ ThrowState throwState = ThrowState();
 
 ThrowState::ThrowState() {
 	time_start = 0;
-
+	MOTOR_START_DURATION = 2000;
+	dynamixel_not_started = true;
 }
 
 ThrowState::~ThrowState() {
@@ -27,10 +28,8 @@ ThrowState::~ThrowState() {
 void ThrowState::enter() {
 	Serial.println("Etat throw");
 	time_start = millis();
-	analogWrite(MOT_GALET_L,22);
-	analogWrite(MOT_GALET_R,22);
-	Dynamixel.setEndless(DYNAMIXEL_ID,true);
-	Dynamixel.turn(DYNAMIXEL_ID,false,1023);
+	analogWrite(MOT_GALET_L,12);
+	analogWrite(MOT_GALET_R,12);
 }
 
 void ThrowState::leave() {
@@ -44,14 +43,19 @@ void ThrowState::doIt() {
 		fsmSupervisor.setNextState(&moveToBeeState);
 	}
 
+	if((millis() - time_start > MOTOR_START_DURATION)&& dynamixel_not_started){
+		Dynamixel.setEndless(DYNAMIXEL_ID,true);
+		Dynamixel.turn(DYNAMIXEL_ID,true,1023);
+		dynamixel_not_started = false;
+	}
+
 }
 
 void ThrowState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	analogWrite(MOT_GALET_L,22);
-	analogWrite(MOT_GALET_R,22);
-	Dynamixel.setEndless(DYNAMIXEL_ID,true);
-	Dynamixel.turn(DYNAMIXEL_ID,false,1023);
+	analogWrite(MOT_GALET_L,12);
+	analogWrite(MOT_GALET_R,12);
+	dynamixel_not_started = true;
 }
 
 void ThrowState::forceLeave(){

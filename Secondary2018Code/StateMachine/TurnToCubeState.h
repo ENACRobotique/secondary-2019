@@ -1,19 +1,19 @@
 /*
- * ThrowState.h
+ * TurnToCubeState.h
  *
  *  Created on: 18 avr. 2018
  *      Author: Maxime
  */
 
-#ifndef STATEMACHINE_THROWSTATE_H_
-#define STATEMACHINE_THROWSTATE_H_
+#ifndef STATEMACHINE_TURNTOCUBESTATE_H_
+#define STATEMACHINE_TURNTOCUBESTATE_H_
 
 #include "AbstractState.h"
 
-class ThrowState : public AbstractState {
+class TurnToCubeState : public AbstractState {
 public:
-	ThrowState();
-	virtual ~ThrowState();
+	TurnToCubeState();
+	virtual ~TurnToCubeState();
 
 	void doIt();
 	void leave();
@@ -27,10 +27,8 @@ public:
 private:
 
 	unsigned long time_start;
-	unsigned long MOTOR_START_DURATION;
-	bool dynamixel_not_started;
 };
 
-extern ThrowState throwState;
+extern TurnToCubeState turnToCubeState;
 
-#endif /* STATEMACHINE_THROWSTATE_H_ */
+#endif /* STATEMACHINE_TURNTOCUBESTATE_H_ */

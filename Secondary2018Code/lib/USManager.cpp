@@ -34,7 +34,7 @@ void USManager::setMinRange(uint16_t* tab_range) {
 void USManager::update() {
 	unsigned long time_current_us = millis() - tab_ultrasound[current_us]->getRangeTime();
 	tab_ultrasound[current_us]->update(false);
-	if(time_current_us > 70){
+	if(time_current_us > 200){
 		current_us = (current_us+1)%NB_US;
 		tab_ultrasound[current_us]->update(true);
 	}

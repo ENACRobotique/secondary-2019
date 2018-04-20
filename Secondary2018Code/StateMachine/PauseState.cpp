@@ -7,6 +7,7 @@
 
 #include "PauseState.h"
 #include "Arduino.h"
+#include "../Navigator.h"
 
 PauseState pauseState = PauseState();
 PauseState::PauseState() {
@@ -27,6 +28,7 @@ void PauseState::leave() {
 void PauseState::enter() {
 	Serial.println("Etat pause");
 	pauseStartTime = millis();
+	navigator.forceStop();
 }
 
 void PauseState::reEnter(unsigned long interruptTime) {

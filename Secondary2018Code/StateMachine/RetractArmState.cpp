@@ -26,7 +26,7 @@ RetractArmState::~RetractArmState() {
 void RetractArmState::enter() {
 	Serial.println("Etat rangement du bras");
 	time_start = millis();
-	arm.write(0);
+	arm.write(170);
 }
 
 void RetractArmState::leave() {
@@ -42,7 +42,7 @@ void RetractArmState::doIt() {
 
 void RetractArmState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	arm.write(0);
+	arm.write(180);
 }
 
 void RetractArmState::forceLeave(){

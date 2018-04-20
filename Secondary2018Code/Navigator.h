@@ -8,8 +8,9 @@
 #ifndef TRAJ_H_
 #define TRAJ_H_
 
-typedef enum { TURN,
-				 DISPLACEMENT}Move_type;
+typedef enum {  TURN,
+				DISPLACEMENT,
+				BRAKE}Move_type;
 
 typedef enum { INITIAL_TURN,
 				  CRUISE,
@@ -23,6 +24,7 @@ public:
 	float compute_cons_speed();
 	float compute_cons_omega();
 	void update();
+	void forceStop();
 	bool isTrajectoryFinished();
 
 private:

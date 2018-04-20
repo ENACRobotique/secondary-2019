@@ -25,7 +25,7 @@ LaunchBeeState::~LaunchBeeState() {
 void LaunchBeeState::enter() {
 	Serial.println("Etat lancer d'abeille");
 	time_start = millis();
-	arm.write(90);
+	arm.write(100);
 }
 
 void LaunchBeeState::leave() {
