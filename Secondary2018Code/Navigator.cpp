@@ -21,6 +21,7 @@ Navigator::Navigator(){
 	trajectory_done = false;
 	x_target = 0;
 	y_target = 0;
+	theta_target = 0;
 	move_type = TURN;
 	move_state = STOPPED;
 }
@@ -37,9 +38,8 @@ void Navigator::move_to(float x, float y){
 	Serial.println(y_target);
 }
 
-void Navigator::turn_to(float x, float y){
-	x_target = x;
-	y_target = y;
+void Navigator::turn_to(float theta){
+	theta_target = center_radian(2*PI*theta/180);
 	move_type = TURN;
 	move_state = INITIAL_TURN;
 	trajectory_done = false;
@@ -96,7 +96,7 @@ float Navigator::compute_cons_omega()
 		alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
 	}
 	else{
-		alpha = atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x()));
+		alpha = theta_target;
 	}
 
 	if (center_radian(alpha - Odometry::get_pos_theta()) > 0){
@@ -135,7 +135,7 @@ void Navigator::update(){
 
 	if(move_type == BRAKE){
 		int sgn = scalaire(cos(Odometry::get_pos_theta()),sin(Odometry::get_pos_theta()),x_target - Odometry::get_pos_x(),y_target - Odometry::get_pos_y());
-		speed_cons = sgn*max(0,abs(Odometry::get_speed()) - ACCEL_MAX*NAVIGATOR_TIME_PERIOD);
+		speed_cons = sgn*max(0,abs(Odometry::get_speed()) - EMERGENCY_BRAKE*NAVIGATOR_TIME_PERIOD);
 		if(abs(Odometry::get_speed()) < ADMITTED_SPEED_ERROR){
 			move_state = STOPPED;
 			speed_cons = 0;
@@ -149,7 +149,7 @@ void Navigator::update(){
 				alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
 			}
 			else{
-				alpha = atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x()));
+				alpha = theta_target;
 			}
 			turn_done = ((abs(center_radian(Odometry::get_pos_theta() - alpha)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
 			if(turn_done){

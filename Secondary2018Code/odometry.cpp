@@ -30,24 +30,27 @@ namespace Odometry{
 
 		pos_x = pos_y = pos_theta = speed = omega = 0;
 
-
 	}
 
 	void isr1() {
 		if(digitalRead(ENCODEUR1_B)) {
-			_incr1++;
+			//_incr1++;
+			_incr1--;
 		}
 		else {
-			_incr1--;
+			//_incr1--;
+			_incr1++;
 		}
 	}
 
 	void isr2() {
 			if(digitalRead(ENCODEUR2_B)) {
-				_incr2++;
+				//_incr2++;
+				_incr2--;
 			}
 			else {
-				_incr2--;
+				//_incr2--;
+				_incr2++;
 			}
 		}
 
@@ -71,7 +74,11 @@ namespace Odometry{
 		return omega;
 	}
 
-
+	void set_pos(float x, float y, float theta){
+		pos_x = x;
+		pos_y = y;
+		pos_theta = theta;
+	}
 
 	void update() {
 		cli();

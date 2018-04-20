@@ -43,6 +43,7 @@ public:
 
 protected:
 	unsigned long flags;
+	//unsigned long time_start;
 };
 
 #endif /* STATEMACHINE_ABSTRACTSTATE_H_ */

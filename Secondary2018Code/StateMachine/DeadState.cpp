@@ -9,6 +9,7 @@
 #include "Arduino.h"
 #include "../params.h"
 #include "FSMSupervisor.h"
+#include "../Navigator.h"
 
 DeadState deadState = DeadState();
 
@@ -22,7 +23,7 @@ DeadState::~DeadState() {
 
 void DeadState::enter() {
 	Serial.println("Etat mort");
-
+	navigator.forceStop();
 }
 
 void DeadState::leave() {

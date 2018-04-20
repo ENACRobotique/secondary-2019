@@ -1,50 +1,51 @@
 /*
- * RetractArmState.cpp
+ * RetractArmBeeState.cpp
  *
  *  Created on: 18 avr. 2018
  *      Author: Maxime
  */
 
-#include "RetractArmState.h"
+#include "RetractArmBeeState.h"
+
 #include "MoveToCubeState.h"
 #include "TiretteState.h"
 #include "Arduino.h"
 #include "../params.h"
 #include "FSMSupervisor.h"
 
-RetractArmState retractArmState = RetractArmState();
+RetractArmBeeState retractArmBeeState = RetractArmBeeState();
 
-RetractArmState::RetractArmState() {
+RetractArmBeeState::RetractArmBeeState() {
 	time_start = 0;
 
 }
 
-RetractArmState::~RetractArmState() {
+RetractArmBeeState::~RetractArmBeeState() {
 	// TODO Auto-generated destructor stub
 }
 
-void RetractArmState::enter() {
+void RetractArmBeeState::enter() {
 	Serial.println("Etat rangement du bras");
 	time_start = millis();
-	arm.write(170);
+	arm.write(RETRACTED_ARM);
 }
 
-void RetractArmState::leave() {
+void RetractArmBeeState::leave() {
 
 }
 
-void RetractArmState::doIt() {
+void RetractArmBeeState::doIt() {
 	if (millis() - time_start > SERVO_MOVEMENT_DURATION) {
 		fsmSupervisor.setNextState(&moveToCubeState);
 	}
 
 }
 
-void RetractArmState::reEnter(unsigned long interruptTime){
+void RetractArmBeeState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	arm.write(180);
+	arm.write(170);
 }
 
-void RetractArmState::forceLeave(){
+void RetractArmBeeState::forceLeave(){
 
 }

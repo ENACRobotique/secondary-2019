@@ -16,6 +16,8 @@ public:
 	TiretteState();
 	virtual ~TiretteState();
 
+	int get_color();
+
 	void doIt();
 	void leave();
 	void enter();
@@ -28,6 +30,7 @@ public:
 private:
 
 	unsigned long time_start;
+	int COLOR_BEGIN;
 };
 
 extern TiretteState tiretteState;

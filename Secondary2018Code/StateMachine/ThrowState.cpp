@@ -7,18 +7,24 @@
 
 #include "ThrowState.h"
 #include "MoveToBeeState.h"
+#include "DeadState.h"
 #include "Arduino.h"
 #include "../params.h"
 #include "FSMSupervisor.h"
 #include "Servo.h"
 #include "DynamixelSerial4.h"
+#include "../Navigator.h"
+#include "MoveToWaterState.h"
 
 ThrowState throwState = ThrowState();
 
 ThrowState::ThrowState() {
 	time_start = 0;
 	MOTOR_START_DURATION = 2000;
+	VIBRATION_DURATION = 2500;
 	dynamixel_not_started = true;
+	time_last_vibration = 0;
+	vibration_index = 0;
 }
 
 ThrowState::~ThrowState() {
@@ -28,8 +34,9 @@ ThrowState::~ThrowState() {
 void ThrowState::enter() {
 	Serial.println("Etat throw");
 	time_start = millis();
-	analogWrite(MOT_GALET_L,12);
-	analogWrite(MOT_GALET_R,12);
+	time_last_vibration = millis();
+	analogWrite(MOT_GALET_L,14);
+	analogWrite(MOT_GALET_R,14);
 }
 
 void ThrowState::leave() {
@@ -49,12 +56,24 @@ void ThrowState::doIt() {
 		dynamixel_not_started = false;
 	}
 
+	if(millis() - time_last_vibration > VIBRATION_DURATION ){
+			time_last_vibration = millis();
+			float vibration[] = {POS_X_WATER -20, POS_X_WATER +20};
+			if(digitalRead(COLOR) == GREEN){
+				navigator.move_to(vibration[vibration_index],POS_Y_WATER_GREEN);
+			}
+			else{
+				navigator.move_to(vibration[vibration_index],POS_Y_WATER_ORANGE);
+			}
+			vibration_index = (vibration_index+1)%2;
+	}
+
 }
 
 void ThrowState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	analogWrite(MOT_GALET_L,12);
-	analogWrite(MOT_GALET_R,12);
+	analogWrite(MOT_GALET_L,14);
+	analogWrite(MOT_GALET_R,14);
 	dynamixel_not_started = true;
 }
 

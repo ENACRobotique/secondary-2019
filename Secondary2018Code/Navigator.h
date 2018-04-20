@@ -20,7 +20,7 @@ class Navigator{
 public:
 	Navigator();
 	void move_to(float x, float y);
-	void turn_to(float x, float y);
+	void turn_to(float theta);
 	float compute_cons_speed();
 	float compute_cons_omega();
 	void update();
@@ -33,6 +33,7 @@ private:
 	bool trajectory_done;
 	float x_target;
 	float y_target;
+	float theta_target;
 	Move_type move_type;
 	Move_state move_state;
 

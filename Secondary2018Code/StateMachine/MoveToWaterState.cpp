@@ -6,7 +6,9 @@
  */
 
 #include "MoveToWaterState.h"
+#include "TiretteState.h"
 #include "ThrowState.h"
+#include "DeadState.h"
 #include "../Navigator.h"
 #include "Arduino.h"
 #include "../params.h"
@@ -26,7 +28,15 @@ MoveToWaterState::~MoveToWaterState() {
 
 void MoveToWaterState::enter() {
 	Serial.println("Etat déplacement vers l'eau");
-	navigator.move_to(4000,0);
+
+	if(tiretteState.get_color() == GREEN){
+		navigator.move_to(POS_X_WATER,POS_Y_WATER_GREEN);
+		Serial.print("color1");
+	}
+	else{
+		navigator.move_to(POS_X_WATER,POS_Y_WATER_ORANGE);
+		Serial.print("color2");
+	}
 	time_start = millis();
 	uint16_t USmin_ranges[] = {30, 30, 30, 30} ;
 	usManager.setMinRange(USmin_ranges);
@@ -41,20 +51,18 @@ void MoveToWaterState::doIt() {
 		fsmSupervisor.setNextState(&throwState);
 	}
 
-//	uint16_t* ranges = usManager.getRanges();
-//	for(int i=0;i<NB_US;i++){
-//		Serial.print(ranges[i]);
-//		Serial.print("\t");
-//	}
-//	Serial.println("");
 }
 
 void MoveToWaterState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	Serial.println("I'm back");
-	navigator.move_to(4000,0);
+	if(digitalRead(COLOR) == GREEN){
+		navigator.move_to(POS_X_WATER,POS_Y_WATER_GREEN);
+	}
+	else{
+		navigator.move_to(POS_X_WATER,POS_Y_WATER_ORANGE);
+	}
 }
 
 void MoveToWaterState::forceLeave(){
-	Serial.println("I'll be back");
+
 }

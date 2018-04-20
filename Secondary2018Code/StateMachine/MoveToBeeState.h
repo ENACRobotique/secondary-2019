@@ -27,6 +27,7 @@ public:
 private:
 
 	unsigned long time_start;
+	int trajectory_index;
 };
 
 extern MoveToBeeState moveToBeeState;

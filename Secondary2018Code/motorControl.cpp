@@ -17,10 +17,10 @@ int clamp(int inf, int sup, float x) {
 
 int direction_sign(int nb) {
 	if(nb>0) {
-		return 0;
+		return 1;
 	}
 	else {
-		return 1;
+		return 0;
 	}
 }
 

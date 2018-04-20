@@ -11,16 +11,19 @@
 #include "../params.h"
 #include "FSMSupervisor.h"
 #include "DynamixelSerial4.h"
-//#include "WireKinetis.h"
+#include "../odometry.h"
 #include "../libraries/i2c_t3/i2c_t3.h"
 #include "../lib/USManager.h"
 
 TiretteState tiretteState = TiretteState();
 Servo arm = Servo();
 
+
+unsigned long time_us = 0;
 TiretteState::TiretteState() {
 	time_start = 0;
 	flags = E_ULTRASOUND;
+	COLOR_BEGIN =1;
 }
 
 TiretteState::~TiretteState() {
@@ -32,20 +35,26 @@ void TiretteState::enter() {
 	Serial.println("Etat tirette");
 	Dynamixel.begin(1000000, DYNAMIXEL_CONTROL);
 	arm.attach(SERVO3);
+	arm.write(160);
+
 	pinMode(TIRETTE,INPUT_PULLUP);
 	pinMode(COLOR,INPUT_PULLUP);
-	//Wire2.begin();
     Wire2.begin(I2C_MASTER, 0x00, I2C_PINS_3_4, I2C_PULLUP_EXT, 400000);
 	Wire2.setSDA(4);
 	Wire2.setSCL(3);
-	//Wire2.setSDA(4);
-	//Wire2.setSCL(3);
 	uint8_t USadresses[] = {0X71, 0X75, 0X73, 0X70};
 	usManager.init(USadresses);
 }
 
 void TiretteState::leave() {
-
+	if(digitalRead(COLOR) == GREEN){
+		Odometry::set_pos(550, 170, 0);
+		COLOR_BEGIN = GREEN;
+	}
+	else{
+		Odometry::set_pos(550,2830,0);
+		COLOR_BEGIN = ORANGE;
+	}
 }
 
 void TiretteState::doIt() {
@@ -55,12 +64,22 @@ void TiretteState::doIt() {
 		time_start = millis();
 		fsmSupervisor.setNextState(&moveToWaterState);
 	}
-	uint16_t* ranges = usManager.getRanges();
-	for(int i=0;i<NB_US;i++){
-		Serial.print(ranges[i]);
-		Serial.print("\t");
+//	if(millis() - time_us > 200){
+//		uint16_t* ranges = usManager.getRanges();
+//		for(int i=0;i<NB_US;i++){
+//			Serial.print(ranges[i]);
+//			Serial.print("\t");
+//		}
+//		Serial.println("");
+//		time_us = millis();
+//	}
+
+	if(digitalRead(COLOR) == GREEN){
+		Serial.println("GREEN");
 	}
-	Serial.println("");
+	else{
+		Serial.println("ORANGE");
+	}
 }
 
 void TiretteState::reEnter(unsigned long interruptTime){
@@ -69,4 +88,8 @@ void TiretteState::reEnter(unsigned long interruptTime){
 
 void TiretteState::forceLeave(){
 
+}
+
+int TiretteState::get_color(){
+	return COLOR_BEGIN;
 }

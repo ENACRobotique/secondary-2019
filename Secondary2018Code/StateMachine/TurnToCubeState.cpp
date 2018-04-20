@@ -6,11 +6,10 @@
  */
 
 #include "TurnToCubeState.h"
-#include "LaunchBeeState.h"
-#include "ThrowState.h"
 #include "../Navigator.h"
 #include "Arduino.h"
 #include "../params.h"
+#include "DeadState.h"
 #include "FSMSupervisor.h"
 
 TurnToCubeState turnToCubeState = TurnToCubeState();
@@ -25,7 +24,7 @@ TurnToCubeState::~TurnToCubeState() {
 
 void TurnToCubeState::enter() {
 	Serial.println("Etat rotation vers les cubes");
-	navigator.turn_to(0,0);
+	navigator.turn_to(0);
 	time_start = millis();
 }
 
@@ -35,12 +34,13 @@ void TurnToCubeState::leave() {
 
 void TurnToCubeState::doIt() {
 	if(navigator.isTrajectoryFinished()){
-		fsmSupervisor.setNextState(&launchBeeState);
+		fsmSupervisor.setNextState(&deadState);
 	}
 }
 
 void TurnToCubeState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
+	navigator.turn_to(0);
 }
 
 void TurnToCubeState::forceLeave(){

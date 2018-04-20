@@ -28,7 +28,10 @@ private:
 
 	unsigned long time_start;
 	unsigned long MOTOR_START_DURATION;
+	unsigned long VIBRATION_DURATION;
+	unsigned long time_last_vibration;
 	bool dynamixel_not_started;
+	int vibration_index;
 };
 
 extern ThrowState throwState;

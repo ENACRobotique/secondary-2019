@@ -39,8 +39,9 @@ const int SPARE4 = 7;
 const int DYNAMIXEL_CONTROL = 30;
 const int DYNAMIXEL_ID =1;
 
-const int ACCEL_MAX = 300;
-const int SPEED_MAX = 500;
+const int EMERGENCY_BRAKE = 1800;
+const int ACCEL_MAX = 500;
+const int SPEED_MAX = 350;
 
 const float ACCEL_OMEGA_MAX = 1;
 const float OMEGA_MAX = 1.5;
@@ -61,8 +62,15 @@ const float INCR_TO_MM = PI*WHEEL_DIAMETER/800.0;
 const float CONTROL_PERIOD = 0.02;
 const float NAVIGATOR_TIME_PERIOD = 0.05;
 
-const unsigned long THROW_DURATION = 7000;
-const unsigned long SERVO_MOVEMENT_DURATION = 2000;
+const unsigned long THROW_DURATION = 14000;
+const unsigned long SERVO_MOVEMENT_DURATION = 1000;
+const unsigned long DETECTION_STOP_TIME = 1500;
+
+const int RETRACTED_ARM = 170;
+const int EXTENDED_ARM = 100;
+
+const int GREEN = 1;
+const int ORANGE = !GREEN;
 
 const int NB_US = 4;
 #endif /* PARAMS_H_ */

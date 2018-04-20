@@ -23,6 +23,7 @@ private:
 	AbstractState* nextState;
 	AbstractState* currentState;
 	AbstractState* previousState;
+	unsigned long time_obstacle_left;
 };
 
 extern FSMSupervisor fsmSupervisor;
