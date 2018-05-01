@@ -49,7 +49,12 @@ void TurnToBeeState::doIt() {
 
 void TurnToBeeState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	navigator.turn_to(180);
+	if(navigator.isTrajectoryFinished()){
+		arm.write(EXTENDED_ARM);
+	}
+	else{
+		navigator.turn_to(30);
+	}
 }
 
 void TurnToBeeState::forceLeave(){

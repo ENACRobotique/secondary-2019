@@ -9,6 +9,7 @@
 #define STATEMACHINE_MOVELAUNCHBUTTONSTATE_H_
 
 #include "AbstractState.h"
+#include "../lib/USManager.h"
 
 class MoveLaunchButtonState : public AbstractState {
 public:
@@ -28,6 +29,7 @@ private:
 
 	unsigned long time_start;
 	unsigned long time_nav_start;
+	USDistances usDistances;
 };
 
 extern MoveLaunchButtonState moveLaunchButtonState;

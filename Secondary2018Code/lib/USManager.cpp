@@ -13,6 +13,10 @@ USManager usManager = USManager();
 
 USManager::USManager() {
 	current_us = 0;
+	usDistances.front_left = 0;
+	usDistances.front_right = 0;
+	usDistances.rear_left = 0;
+	usDistances.rear_right = 0;
 }
 
 USManager::~USManager() {
@@ -25,10 +29,11 @@ void USManager::init(uint8_t* tab_address) {
 	}
 }
 
-void USManager::setMinRange(uint16_t* tab_range) {
-	for(int i=0;i<NB_US;i++){
-		tab_ultrasound[i]->setMinRange(tab_range[i]);
-	}
+void USManager::setMinRange(USDistances* distances) {
+	tab_ultrasound[FRONT_LEFT_INDEX]->setMinRange(distances->front_left);
+	tab_ultrasound[FRONT_RIGHT_INDEX]->setMinRange(distances->front_right);
+	tab_ultrasound[REAR_LEFT_INDEX]->setMinRange(distances->rear_left);
+	tab_ultrasound[REAR_RIGHT_INDEX]->setMinRange(distances->rear_right);
 }
 
 void USManager::update() {
@@ -48,11 +53,10 @@ bool USManager::obstacleDetected() {
 	return obstacle_detected;
 }
 
-uint16_t * USManager::getRanges() {
-	for(int i=0;i<NB_US;i++) {
-		//uint16_t a = tab_ranges[i];
-		//uint16_t r = tab_ultrasound[i]->getRange();
-		tab_ranges[i] = tab_ultrasound[i]->getRange();
-	}
-	return tab_ranges;
+USDistances USManager::getRanges() {
+	usDistances.front_left = tab_ultrasound[FRONT_LEFT_INDEX]->getRange();
+	usDistances.front_right = tab_ultrasound[FRONT_RIGHT_INDEX]->getRange();
+	usDistances.rear_left = tab_ultrasound[REAR_LEFT_INDEX]->getRange();
+	usDistances.rear_right = tab_ultrasound[REAR_RIGHT_INDEX]->getRange();
+	return usDistances;
 }

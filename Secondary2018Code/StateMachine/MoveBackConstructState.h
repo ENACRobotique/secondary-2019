@@ -9,6 +9,7 @@
 #define STATEMACHINE_MOVEBACKCONSTRUCTSTATE_H_
 
 #include "AbstractState.h"
+#include "../lib/USManager.h"
 
 class MoveBackConstructState : public AbstractState {
 public:
@@ -25,7 +26,7 @@ public:
 	}
 
 private:
-
+	USDistances usDistances;
 	unsigned long time_start;
 };
 

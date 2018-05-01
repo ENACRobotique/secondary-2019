@@ -18,7 +18,7 @@ RetractArmButtonState retractArmButtonState = RetractArmButtonState();
 
 RetractArmButtonState::RetractArmButtonState() {
 	time_start = 0;
-	time_start = 0;
+	time_servo = 0;
 }
 
 RetractArmButtonState::~RetractArmButtonState() {

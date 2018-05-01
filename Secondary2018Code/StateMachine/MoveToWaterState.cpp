@@ -5,10 +5,10 @@
  *      Author: Maxime
  */
 
+#include "MoveToBeeState.h"
 #include "MoveToWaterState.h"
 #include "TiretteState.h"
 #include "ThrowState.h"
-#include "DeadState.h"
 #include "../Navigator.h"
 #include "Arduino.h"
 #include "../params.h"
@@ -20,6 +20,10 @@ MoveToWaterState moveToWaterState = MoveToWaterState();
 MoveToWaterState::MoveToWaterState() {
 	time_start = 0;
 	flags = E_ULTRASOUND;
+	usDistances.front_left = 0;
+	usDistances.front_right = 0;
+	usDistances.rear_left = 0;
+	usDistances.rear_right = 0;
 }
 
 MoveToWaterState::~MoveToWaterState() {
@@ -31,15 +35,28 @@ void MoveToWaterState::enter() {
 
 	if(tiretteState.get_color() == GREEN){
 		navigator.move_to(POS_X_WATER,POS_Y_WATER_GREEN);
-		Serial.print("color1");
 	}
 	else{
 		navigator.move_to(POS_X_WATER,POS_Y_WATER_ORANGE);
-		Serial.print("color2");
 	}
+
+	if(navigator.moveForward()){
+		Serial.println("Forward");
+		usDistances.front_left = 30;
+		usDistances.front_right = 30;
+		usDistances.rear_left = 0;
+		usDistances.rear_right = 0;
+	}
+	else{
+		Serial.println("Backwards");
+		usDistances.front_left = 0;
+		usDistances.front_right = 0;
+		usDistances.rear_left = 30;
+		usDistances.rear_right = 30;
+	}
+	usManager.setMinRange(&usDistances);
+
 	time_start = millis();
-	uint16_t USmin_ranges[] = {30, 30, 30, 30} ;
-	usManager.setMinRange(USmin_ranges);
 }
 
 void MoveToWaterState::leave() {
@@ -48,7 +65,7 @@ void MoveToWaterState::leave() {
 
 void MoveToWaterState::doIt() {
 	if(navigator.isTrajectoryFinished()){
-		fsmSupervisor.setNextState(&throwState);
+		fsmSupervisor.setNextState(&moveToBeeState);
 	}
 
 }

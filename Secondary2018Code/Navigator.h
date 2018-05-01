@@ -26,6 +26,7 @@ public:
 	void update();
 	void forceStop();
 	bool isTrajectoryFinished();
+	bool moveForward();
 
 private:
 	bool turn_done;

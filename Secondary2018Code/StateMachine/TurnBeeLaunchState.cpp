@@ -18,7 +18,7 @@ TurnBeeLaunchState turnBeeLaunchState = TurnBeeLaunchState();
 
 TurnBeeLaunchState::TurnBeeLaunchState() {
 	time_start = 0;
-	time_servo=0;
+	time_servo = 0;
 }
 
 TurnBeeLaunchState::~TurnBeeLaunchState() {
@@ -49,7 +49,12 @@ void TurnBeeLaunchState::doIt() {
 
 void TurnBeeLaunchState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	navigator.turn_to(180);
+	if(navigator.isTrajectoryFinished()){
+		arm.write(RETRACTED_ARM);
+	}
+	else{
+		navigator.turn_to(-50);
+	}
 }
 
 void TurnBeeLaunchState::forceLeave(){

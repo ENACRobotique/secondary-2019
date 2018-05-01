@@ -42,7 +42,7 @@ void TiretteState::enter() {
     Wire2.begin(I2C_MASTER, 0x00, I2C_PINS_3_4, I2C_PULLUP_EXT, 400000);
 	Wire2.setSDA(4);
 	Wire2.setSCL(3);
-	uint8_t USadresses[] = {0X71, 0X75, 0X73, 0X70};
+	uint8_t USadresses[] = {0X75, 0X71, 0X70, 0X73};
 	usManager.init(USadresses);
 }
 
@@ -59,27 +59,29 @@ void TiretteState::leave() {
 
 void TiretteState::doIt() {
 	time_start = millis();
+	USDistances distances =usManager.getRanges();
+//	Serial.print("front left:");
+//	Serial.print(distances.front_left);
+//	Serial.print("\t");
+//	Serial.print("front right:");
+//	Serial.print(distances.front_right);
+//	Serial.print("\t");
+//	Serial.print("rear left:");
+//	Serial.print(distances.rear_left);
+//	Serial.print("\t");
+//	Serial.print("rear right:");
+//	Serial.println(distances.rear_right);
 	if (!digitalRead(TIRETTE)) {
 		Serial.println("On change d'etat : gooooo!!");
 		time_start = millis();
 		fsmSupervisor.setNextState(&moveToWaterState);
 	}
-//	if(millis() - time_us > 200){
-//		uint16_t* ranges = usManager.getRanges();
-//		for(int i=0;i<NB_US;i++){
-//			Serial.print(ranges[i]);
-//			Serial.print("\t");
-//		}
-//		Serial.println("");
-//		time_us = millis();
+//	if(digitalRead(COLOR) == GREEN){
+//		Serial.println("GREEN");
 //	}
-
-	if(digitalRead(COLOR) == GREEN){
-		Serial.println("GREEN");
-	}
-	else{
-		Serial.println("ORANGE");
-	}
+//	else{
+//		Serial.println("ORANGE");
+//	}
 }
 
 void TiretteState::reEnter(unsigned long interruptTime){

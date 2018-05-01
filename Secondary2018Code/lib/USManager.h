@@ -11,6 +11,17 @@
 #include "Ultrasound.h"
 #include "../params.h"
 
+#define FRONT_LEFT_INDEX 2
+#define FRONT_RIGHT_INDEX 3
+#define REAR_RIGHT_INDEX 0
+#define REAR_LEFT_INDEX 1
+
+typedef struct {
+	uint16_t front_left;
+	uint16_t front_right;
+	uint16_t rear_right;
+	uint16_t rear_left;
+} USDistances;
 
 class USManager {
 public:
@@ -21,19 +32,19 @@ public:
 
 	void init(uint8_t *tab_address);
 
-	void setMinRange(uint16_t *tab_range);
+	void setMinRange(USDistances*);
 
 	void update();
 
 	bool obstacleDetected();
 
-	uint16_t *getRanges();
+	USDistances getRanges();
 
 
 private:
 	Ultrasound *tab_ultrasound[NB_US];
 	int current_us;
-	uint16_t tab_ranges[NB_US];
+	USDistances usDistances;
 };
 
 extern USManager usManager;

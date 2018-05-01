@@ -18,6 +18,10 @@ MoveToConstructState moveToConstructState = MoveToConstructState();
 MoveToConstructState::MoveToConstructState() {
 	time_start = 0;
 	flags = E_ULTRASOUND;
+	usDistances.front_left = 0;
+	usDistances.front_right = 0;
+	usDistances.rear_left = 0;
+	usDistances.rear_right = 0;
 }
 
 MoveToConstructState::~MoveToConstructState() {
@@ -27,9 +31,22 @@ MoveToConstructState::~MoveToConstructState() {
 void MoveToConstructState::enter() {
 	Serial.println("Etat déplacement vers la zone de construction");
 	navigator.move_to(400,0);
+	if(navigator.moveForward()){
+		Serial.println("Forward");
+		usDistances.front_left = 30;
+		usDistances.front_right = 30;
+		usDistances.rear_left = 0;
+		usDistances.rear_right = 0;
+	}
+	else{
+		Serial.println("Backwards");
+		usDistances.front_left = 0;
+		usDistances.front_right = 0;
+		usDistances.rear_left = 30;
+		usDistances.rear_right = 30;
+	}
+	usManager.setMinRange(&usDistances);
 	time_start = millis();
-	uint16_t USmin_ranges[] = {30, 30, 30, 30} ;
-	usManager.setMinRange(USmin_ranges);
 }
 
 void MoveToConstructState::leave() {

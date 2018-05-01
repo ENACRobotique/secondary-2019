@@ -9,6 +9,7 @@
 #define STATEMACHINE_MOVETOBUTTONSTATE_H_
 
 #include "AbstractState.h"
+#include "../lib/USManager.h"
 
 class MoveToButtonState : public AbstractState {
 public:
@@ -29,6 +30,7 @@ private:
 	unsigned long time_start;
 	int trajectory_index;
 	unsigned long time_servo;
+	USDistances usDistances;
 };
 
 extern MoveToButtonState moveToButtonState;

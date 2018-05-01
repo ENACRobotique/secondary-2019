@@ -9,6 +9,7 @@
 #define STATEMACHINE_MOVETOWATERSTATE_H_
 
 #include "AbstractState.h"
+#include "../lib/USManager.h"
 
 #define POS_X_WATER			840
 #define POS_Y_WATER_GREEN	170
@@ -31,6 +32,7 @@ public:
 private:
 
 	unsigned long time_start;
+	USDistances usDistances;
 };
 
 extern MoveToWaterState moveToWaterState;

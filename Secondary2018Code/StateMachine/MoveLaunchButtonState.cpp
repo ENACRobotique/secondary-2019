@@ -19,6 +19,10 @@ MoveLaunchButtonState moveLaunchButtonState = MoveLaunchButtonState();
 MoveLaunchButtonState::MoveLaunchButtonState() {
 	time_start = 0;
 	time_nav_start = 0;
+	usDistances.front_left = 0;
+	usDistances.front_right = 0;
+	usDistances.rear_left = 0;
+	usDistances.rear_right = 0;
 }
 
 MoveLaunchButtonState::~MoveLaunchButtonState() {
@@ -39,7 +43,28 @@ void MoveLaunchButtonState::doIt() {
 	if(millis() - time_start > SERVO_MOVEMENT_DURATION){
 		if(time_nav_start ==0){
 			time_nav_start = millis();
-			navigator.move_to(240,1875);
+			if(tiretteState.get_color() == GREEN){
+				navigator.move_to(240,1125);
+			}
+			else{
+				navigator.move_to(240,1875);
+			}
+
+			if(navigator.moveForward()){
+				Serial.println("Forward");
+				usDistances.front_left = 30;
+				usDistances.front_right = 30;
+				usDistances.rear_left = 0;
+				usDistances.rear_right = 0;
+			}
+			else{
+				Serial.println("Backwards");
+				usDistances.front_left = 0;
+				usDistances.front_right = 0;
+				usDistances.rear_left = 30;
+				usDistances.rear_right = 30;
+			}
+			usManager.setMinRange(&usDistances);
 		}
 		if(navigator.isTrajectoryFinished()){
 			fsmSupervisor.setNextState(&retractArmButtonState);
@@ -49,6 +74,17 @@ void MoveLaunchButtonState::doIt() {
 
 void MoveLaunchButtonState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
+	if(millis() - time_start > SERVO_MOVEMENT_DURATION){
+		if(tiretteState.get_color() == GREEN){
+			navigator.move_to(240,1125);
+		}
+		else{
+			navigator.move_to(240,1875);
+		}
+	}
+	else{
+		arm.write(EXTENDED_ARM);
+	}
 }
 
 void MoveLaunchButtonState::forceLeave(){

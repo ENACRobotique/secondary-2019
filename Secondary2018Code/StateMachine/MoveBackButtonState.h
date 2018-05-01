@@ -9,6 +9,7 @@
 #define STATEMACHINE_MOVEBACKBUTTONSTATE_H_
 
 #include "AbstractState.h"
+#include "../lib/USManager.h"
 
 class MoveBackButtonState : public AbstractState {
 public:
@@ -25,8 +26,9 @@ public:
 	}
 
 private:
-
+	USDistances usDistances;
 	unsigned long time_start;
+
 };
 
 extern MoveBackButtonState moveBackButtonState;

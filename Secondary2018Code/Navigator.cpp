@@ -195,6 +195,16 @@ void Navigator::forceStop(){
 	move_type = BRAKE;
 }
 
+bool Navigator::moveForward(){
+	int dir = scalaire(cos(Odometry::get_pos_theta()),sin(Odometry::get_pos_theta()),x_target - Odometry::get_pos_x(),y_target - Odometry::get_pos_y());
+	if(dir>0){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
 
 float Navigator::center_axes(float angle)
 {
@@ -253,15 +263,6 @@ int Navigator::scalaire(float x,float y,float x2,float y2){
 	else{
 		return -1;
 	}
-	/*Serial.print("Scalaire:");
-	Serial.print("\t");
-	Serial.print(x);
-	Serial.print("\t");
-	Serial.print(y);
-	Serial.print("\t");
-	Serial.print(x2);
-	Serial.print("\t");
-	Serial.println(y2);*/
 }
 
 bool Navigator::isTrajectoryFinished(){

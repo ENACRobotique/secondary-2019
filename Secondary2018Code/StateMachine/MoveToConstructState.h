@@ -9,6 +9,7 @@
 #define STATEMACHINE_MOVETOCONSTRUCTSTATE_H_
 
 #include "AbstractState.h"
+#include "../lib/USManager.h"
 
 class MoveToConstructState : public AbstractState {
 public:
@@ -27,6 +28,7 @@ public:
 private:
 
 	unsigned long time_start;
+	USDistances usDistances;
 };
 
 extern MoveToConstructState moveToConstructState;

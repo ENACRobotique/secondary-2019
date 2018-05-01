@@ -88,7 +88,7 @@ namespace Odometry{
 		sei();
 
 		float length = ((float)(incr1+incr2)/2.0)*INCR_TO_MM;
-		float angle = ((float)(incr2-incr1)*INCR_TO_MM)/WHEELBASE;
+		float angle = ((float)(incr1-incr2)*INCR_TO_MM)/WHEELBASE;
 
 		//TODO : vérifier formule
 		pos_x = pos_x + length*cos(pos_theta + angle/2.0);
