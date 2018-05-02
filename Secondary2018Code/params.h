@@ -41,6 +41,7 @@ const int DYNAMIXEL_ID =1;
 
 const int EMERGENCY_BRAKE = 1800;
 const int ACCEL_MAX = 500;
+const int ACCEL_MAX_THROW = 50;
 const int SPEED_MAX = 350;
 
 const float ACCEL_OMEGA_MAX = 1;

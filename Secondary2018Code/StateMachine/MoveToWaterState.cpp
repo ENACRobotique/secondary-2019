@@ -5,7 +5,6 @@
  *      Author: Maxime
  */
 
-#include "MoveToBeeState.h"
 #include "MoveToWaterState.h"
 #include "TiretteState.h"
 #include "ThrowState.h"
@@ -42,8 +41,8 @@ void MoveToWaterState::enter() {
 
 	if(navigator.moveForward()){
 		Serial.println("Forward");
-		usDistances.front_left = 30;
-		usDistances.front_right = 30;
+		usDistances.front_left = 0;
+		usDistances.front_right = 0;
 		usDistances.rear_left = 0;
 		usDistances.rear_right = 0;
 	}
@@ -51,8 +50,8 @@ void MoveToWaterState::enter() {
 		Serial.println("Backwards");
 		usDistances.front_left = 0;
 		usDistances.front_right = 0;
-		usDistances.rear_left = 30;
-		usDistances.rear_right = 30;
+		usDistances.rear_left = 0;
+		usDistances.rear_right = 0;
 	}
 	usManager.setMinRange(&usDistances);
 
@@ -65,7 +64,7 @@ void MoveToWaterState::leave() {
 
 void MoveToWaterState::doIt() {
 	if(navigator.isTrajectoryFinished()){
-		fsmSupervisor.setNextState(&moveToBeeState);
+		fsmSupervisor.setNextState(&throwState);
 	}
 
 }

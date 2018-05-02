@@ -17,18 +17,18 @@
 MoveToBeeState moveToBeeState = MoveToBeeState();
 
 
-float traj_bee_green[][2] = { 	{990,170},
-								{990,800},
+float traj_bee_green[][2] = { 	{600,170},
+								{600,800},
 								{1550,800},
 								{1550,170},
-								{1800,170}
+								{1850,170}
 };
 
-float traj_bee_orange[][2] = {	{990, 2830},
-								{990, 2200},
+float traj_bee_orange[][2] = {	{600, 2830},
+								{600, 2200},
 								{1550,2200},
 								{1550,2830},
-								{1800,2830}
+								{1850,2830}
 };
 
 MoveToBeeState::MoveToBeeState() {
@@ -98,17 +98,34 @@ void MoveToBeeState::doIt() {
 
 			if(navigator.moveForward()){
 				Serial.println("Forward");
-				usDistances.front_left = 30;
-				usDistances.front_right = 30;
-				usDistances.rear_left = 0;
-				usDistances.rear_right = 0;
+				if(trajectory_index==4 or trajectory_index==3){
+					usDistances.front_left = 0;
+					usDistances.front_right = 0;
+					usDistances.rear_left = 0;
+					usDistances.rear_right = 0;
+				}
+				else{
+					usDistances.front_left = 30;
+					usDistances.front_right = 30;
+					usDistances.rear_left = 0;
+					usDistances.rear_right = 0;
+				}
 			}
 			else{
+
 				Serial.println("Backwards");
-				usDistances.front_left = 0;
-				usDistances.front_right = 0;
-				usDistances.rear_left = 30;
-				usDistances.rear_right = 30;
+				if(trajectory_index==4 or trajectory_index==3){
+					usDistances.front_left = 0;
+					usDistances.front_right = 0;
+					usDistances.rear_left = 0;
+					usDistances.rear_right = 0;
+				}
+				else{
+					usDistances.front_left = 0;
+					usDistances.front_right = 0;
+					usDistances.rear_left = 30;
+					usDistances.rear_right = 30;
+				}
 			}
 			usManager.setMinRange(&usDistances);
 		}

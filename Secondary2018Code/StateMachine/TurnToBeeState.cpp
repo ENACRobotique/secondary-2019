@@ -26,7 +26,12 @@ TurnToBeeState::~TurnToBeeState() {
 
 void TurnToBeeState::enter() {
 	Serial.println("Etat rotation vers l'abeille");
-	navigator.turn_to(30);
+	if(tiretteState.get_color() == GREEN){
+		navigator.turn_to(-30);
+	}
+	else{
+		navigator.turn_to(-30);
+	}
 	time_start = millis();
 }
 
@@ -53,7 +58,12 @@ void TurnToBeeState::reEnter(unsigned long interruptTime){
 		arm.write(EXTENDED_ARM);
 	}
 	else{
-		navigator.turn_to(30);
+		if(tiretteState.get_color() == GREEN){
+			navigator.turn_to(-30);
+		}
+		else{
+			navigator.turn_to(-30);
+		}
 	}
 }
 

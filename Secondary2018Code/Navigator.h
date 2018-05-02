@@ -10,6 +10,7 @@
 
 typedef enum {  TURN,
 				DISPLACEMENT,
+				THROW,
 				BRAKE}Move_type;
 
 typedef enum { INITIAL_TURN,
@@ -21,6 +22,7 @@ public:
 	Navigator();
 	void move_to(float x, float y);
 	void turn_to(float theta);
+	void throw_to(float x, float y);
 	float compute_cons_speed();
 	float compute_cons_omega();
 	void update();

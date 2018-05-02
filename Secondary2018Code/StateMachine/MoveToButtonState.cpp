@@ -19,8 +19,8 @@ MoveToButtonState moveToButtonState = MoveToButtonState();
 float traj_button_orange[][2] = {	{830,1875},
 									{350,1875}
 };
-float traj_button_green[][2] = {	{830,1125},
-									{350,1125}
+float traj_button_green[][2] = {	{830,1300},
+									{350,1300}
 };
 
 

@@ -45,12 +45,29 @@ void Navigator::turn_to(float theta){
 	trajectory_done = false;
 }
 
+void Navigator::throw_to(float x, float y){
+	x_target = x;
+	y_target = y;
+	move_type = THROW;
+	move_state = CRUISE;
+	trajectory_done = false;
+	Serial.print("throwing_to : ");
+	Serial.print(x_target);
+	Serial.print("\t");
+	Serial.println(y_target);
+}
 
 float Navigator::compute_cons_speed()
 {
 	float speed_cons, dist_fore, t_stop, dist_objective;
-	int sgn;
+	int sgn,MAX_ACCEL;
 
+	if(move_type == THROW){
+		MAX_ACCEL = ACCEL_MAX_THROW;
+	}
+	else{
+		MAX_ACCEL = ACCEL_MAX;
+	}
 	sgn = scalaire(cos(Odometry::get_pos_theta()),sin(Odometry::get_pos_theta()),x_target - Odometry::get_pos_x(),y_target - Odometry::get_pos_y());
 
 	/*Serial.print("Sens d'avancée:");
@@ -58,22 +75,22 @@ float Navigator::compute_cons_speed()
 	Serial.println(sgn);*/
 
 	//Test de décélération (on suppose l'accélération minimale et on intègre deux fois)
-	t_stop = Odometry::get_speed()/ACCEL_MAX;
-	dist_fore = (Odometry::get_speed()*t_stop-1/2*ACCEL_MAX*pow(t_stop,2));
+	t_stop = Odometry::get_speed()/MAX_ACCEL;
+	dist_fore = (Odometry::get_speed()*t_stop-1/2*MAX_ACCEL*pow(t_stop,2));
 	/*dist_fore = Odometry::get_speed()*t_stop;*/
 
 	dist_objective = sqrt(pow(x_target - Odometry::get_pos_x(),2) + pow(y_target - Odometry::get_pos_y(),2));
 
 	//Si le point estimé est suffisamment proche du point voulu, on décélére, sinon on accélére jusqu'à la vitesse maximale.
 	if(abs( dist_fore - dist_objective ) < ADMITTED_POSITION_ERROR){
-		speed_cons = sgn*max(0,-ACCEL_MAX*NAVIGATOR_TIME_PERIOD + abs(Odometry::get_speed()));
+		speed_cons = sgn*max(0,-MAX_ACCEL*NAVIGATOR_TIME_PERIOD + abs(Odometry::get_speed()));
 	}
 	else{
 		if(dist_fore - dist_objective > 0){
-			speed_cons = sgn*max(0,abs(Odometry::get_speed()) - ACCEL_MAX*NAVIGATOR_TIME_PERIOD);
+			speed_cons = sgn*max(0,abs(Odometry::get_speed()) - MAX_ACCEL*NAVIGATOR_TIME_PERIOD);
 		}
 		else{
-			speed_cons = sgn*min(SPEED_MAX,abs(Odometry::get_speed()) + ACCEL_MAX*NAVIGATOR_TIME_PERIOD);
+			speed_cons = sgn*min(SPEED_MAX,abs(Odometry::get_speed()) + MAX_ACCEL*NAVIGATOR_TIME_PERIOD);
 		}
 	}
 	/*Serial.print("Distances estimées");
@@ -162,6 +179,9 @@ void Navigator::update(){
 				case DISPLACEMENT:
 					move_state = CRUISE;
 					break;
+				case THROW:
+					//Do nothing
+					break;
 				case BRAKE:
 					//Do nothing
 					break;
@@ -181,7 +201,12 @@ void Navigator::update(){
 				break;
 			}
 			speed_cons=compute_cons_speed();
-			omega_cons = compute_cons_omega();
+			if(move_type == THROW){
+				omega_cons = 0;
+			}
+			else{
+				omega_cons = compute_cons_omega();
+			}
 			MotorControl::set_cons(speed_cons,omega_cons);
 			break;
 		case STOPPED:

@@ -6,7 +6,7 @@
  */
 
 #include "TurnBeeLaunchState.h"
-#include "MoveToButtonState.h"
+#include "DeadState.h"
 #include "RetractArmBeeState.h"
 #include "../Navigator.h"
 #include "Arduino.h"
@@ -27,7 +27,7 @@ TurnBeeLaunchState::~TurnBeeLaunchState() {
 
 void TurnBeeLaunchState::enter() {
 	Serial.println("Etat rotation vers l'abeille");
-	navigator.turn_to(-50);
+	navigator.turn_to(-30);
 	time_start = millis();
 }
 
@@ -42,7 +42,7 @@ void TurnBeeLaunchState::doIt() {
 			arm.write(RETRACTED_ARM);
 		}
 		if(millis() - time_servo > SERVO_MOVEMENT_DURATION){
-			fsmSupervisor.setNextState(&moveToButtonState);
+			fsmSupervisor.setNextState(&deadState);
 		}
 	}
 }
