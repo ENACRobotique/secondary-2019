@@ -35,8 +35,8 @@ void ThrowState::enter() {
 	Serial.println("Etat throw");
 	time_start = millis();
 	time_last_vibration = millis();
-	analogWrite(MOT_GALET_L,13);
-	analogWrite(MOT_GALET_R,13);
+	analogWrite(MOT_GALET_L,85);
+	//analogWrite(MOT_GALET_R,13);
 }
 
 void ThrowState::leave() {
