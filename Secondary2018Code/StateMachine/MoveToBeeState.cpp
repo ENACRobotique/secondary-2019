@@ -13,22 +13,25 @@
 #include "../params.h"
 #include "FSMSupervisor.h"
 #include "../lib/USManager.h"
+#include "../odometry.h"
 
 MoveToBeeState moveToBeeState = MoveToBeeState();
 
 
-float traj_bee_green[][2] = { 	{600,170},
-								{600,800},
-								{1550,800},
-								{1550,170},
-								{1850,170}
+float traj_bee_green[][2] = { 	{600,200},
+								{600,600},
+								{1550,600},
+								{1550,200},
+								{0,0},
+								{1950,200}
 };
 
-float traj_bee_orange[][2] = {	{600, 2830},
-								{600, 2200},
-								{1550,2200},
-								{1550,2830},
-								{1850,2830}
+float traj_bee_orange[][2] = {	{600, 2800},
+								{600, 2400},
+								{1550,2400},
+								{1550,2800},
+								{0,0},
+								{1950,2800}
 };
 
 MoveToBeeState::MoveToBeeState() {
@@ -82,52 +85,66 @@ void MoveToBeeState::doIt() {
 	if(navigator.isTrajectoryFinished()){
 		Serial.print("trajectory:");
 		Serial.println(trajectory_index);
-		if(trajectory_index == 4){
+		if(trajectory_index == 5){
+			if(tiretteState.get_color() == GREEN){
+				Odometry::set_pos(1910,200,0);
+			}
+			else{
+				Odometry::set_pos(1910,2800,0);
+			}
 			fsmSupervisor.setNextState(&turnToBeeState);
 		}
 		else{
 			trajectory_index+=1;
-
-			if(tiretteState.get_color() == GREEN){
-				navigator.move_to(traj_bee_green[trajectory_index][0],traj_bee_green[trajectory_index][1]);
+			if(trajectory_index == 4){
+				navigator.turn_to(traj_bee_green[trajectory_index][0]);
+				usDistances.front_left = 0;
+				usDistances.front_right = 0;
+				usDistances.rear_left = 0;
+				usDistances.rear_right = 0;
 			}
 			else{
-				Serial.println("Orange");
-				navigator.move_to(traj_bee_orange[trajectory_index][0],traj_bee_orange[trajectory_index][1]);
-			}
-
-			if(navigator.moveForward()){
-				Serial.println("Forward");
-				if(trajectory_index==4 or trajectory_index==3){
-					usDistances.front_left = 0;
-					usDistances.front_right = 0;
-					usDistances.rear_left = 0;
-					usDistances.rear_right = 0;
+				if(tiretteState.get_color() == GREEN){
+					navigator.move_to(traj_bee_green[trajectory_index][0],traj_bee_green[trajectory_index][1]);
 				}
 				else{
-					usDistances.front_left = 30;
-					usDistances.front_right = 30;
-					usDistances.rear_left = 0;
-					usDistances.rear_right = 0;
+					Serial.println("Orange");
+					navigator.move_to(traj_bee_orange[trajectory_index][0],traj_bee_orange[trajectory_index][1]);
 				}
-			}
-			else{
 
-				Serial.println("Backwards");
-				if(trajectory_index==4 or trajectory_index==3){
-					usDistances.front_left = 0;
-					usDistances.front_right = 0;
-					usDistances.rear_left = 0;
-					usDistances.rear_right = 0;
+				if(navigator.moveForward()){
+					Serial.println("Forward");
+					if(trajectory_index==4){
+						usDistances.front_left = 0;
+						usDistances.front_right = 0;
+						usDistances.rear_left = 0;
+						usDistances.rear_right = 0;
+					}
+					else{
+						usDistances.front_left = 30;
+						usDistances.front_right = 30;
+						usDistances.rear_left = 0;
+						usDistances.rear_right = 0;
+					}
 				}
 				else{
-					usDistances.front_left = 0;
-					usDistances.front_right = 0;
-					usDistances.rear_left = 30;
-					usDistances.rear_right = 30;
+
+					Serial.println("Backwards");
+					if(trajectory_index==4){
+						usDistances.front_left = 0;
+						usDistances.front_right = 0;
+						usDistances.rear_left = 0;
+						usDistances.rear_right = 0;
+					}
+					else{
+						usDistances.front_left = 0;
+						usDistances.front_right = 0;
+						usDistances.rear_left = 30;
+						usDistances.rear_right = 30;
+					}
 				}
+				usManager.setMinRange(&usDistances);
 			}
-			usManager.setMinRange(&usDistances);
 		}
 	}
 

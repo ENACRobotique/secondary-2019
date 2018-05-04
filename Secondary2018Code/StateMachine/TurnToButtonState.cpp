@@ -6,7 +6,9 @@
  */
 
 #include "TurnToButtonState.h"
+#include "MoveLaunchButtonState.h"
 #include "DeadState.h"
+#include "TiretteState.h"
 #include "../Navigator.h"
 #include "Arduino.h"
 #include "../params.h"
@@ -16,6 +18,7 @@ TurnToButtonState turnToButtonState = TurnToButtonState();
 
 TurnToButtonState::TurnToButtonState() {
 	time_start = 0;
+	time_servo = 0;
 }
 
 TurnToButtonState::~TurnToButtonState() {
@@ -23,7 +26,7 @@ TurnToButtonState::~TurnToButtonState() {
 }
 
 void TurnToButtonState::enter() {
-	Serial.println("Etat rotation vers l'abeille");
+	Serial.println("Etat rotation vers l'interrupteur");
 	navigator.turn_to(180);
 	time_start = millis();
 }
@@ -34,7 +37,13 @@ void TurnToButtonState::leave() {
 
 void TurnToButtonState::doIt() {
 	if(navigator.isTrajectoryFinished()){
-		fsmSupervisor.setNextState(&deadState);
+		if(time_servo == 0){
+			time_servo = millis();
+			arm.write(EXTENDED_ARM);
+		}
+		if(millis() - time_servo > SERVO_MOVEMENT_DURATION){
+			fsmSupervisor.setNextState(&moveLaunchButtonState);
+		}
 	}
 }
 

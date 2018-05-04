@@ -22,7 +22,7 @@ public:
 	Navigator();
 	void move_to(float x, float y);
 	void turn_to(float theta);
-	void throw_to(float x, float y);
+	void throw_to(float x, float y, float theta);
 	float compute_cons_speed();
 	float compute_cons_omega();
 	void update();

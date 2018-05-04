@@ -32,6 +32,7 @@ public:
 
 private:
 
+	unsigned long trajectory_index;
 	unsigned long time_start;
 	USDistances usDistances;
 };

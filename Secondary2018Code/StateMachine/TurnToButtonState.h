@@ -26,6 +26,7 @@ public:
 
 private:
 
+	unsigned long time_servo;
 	unsigned long time_start;
 };
 

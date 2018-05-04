@@ -26,7 +26,6 @@ const int SERVO2 = 15;
 const int SERVO3 = 37;
 
 const int MOT_GALET_L = 35;
-const int MOT_GALET_R = 36;
 
 const int COLOR = 26;
 const int TIRETTE = 25;
@@ -41,7 +40,7 @@ const int DYNAMIXEL_ID =1;
 
 const int EMERGENCY_BRAKE = 1800;
 const int ACCEL_MAX = 500;
-const int ACCEL_MAX_THROW = 50;
+const int ACCEL_MAX_THROW = 100;
 const int SPEED_MAX = 350;
 
 const float ACCEL_OMEGA_MAX = 1;
@@ -51,7 +50,7 @@ const float ADMITTED_OMEGA_ERROR = 0.03;
 const float ADMITTED_SPEED_ERROR = 10;
 
 const float ADMITTED_POSITION_ERROR = 10;
-const float ADMITTED_ANGLE_ERROR = 0.03;
+const float ADMITTED_ANGLE_ERROR = 0.01;
 
 const float MAX_DRIFT = 0.1;
 
@@ -63,12 +62,12 @@ const float INCR_TO_MM = PI*WHEEL_DIAMETER/800.0;
 const float CONTROL_PERIOD = 0.02;
 const float NAVIGATOR_TIME_PERIOD = 0.05;
 
-const unsigned long THROW_DURATION = 14000;
+const unsigned long THROW_DURATION = 20000;
 const unsigned long SERVO_MOVEMENT_DURATION = 1000;
 const unsigned long DETECTION_STOP_TIME = 1500;
 
 const int RETRACTED_ARM = 170;
-const int EXTENDED_ARM = 100;
+const int EXTENDED_ARM = 70;
 
 const int GREEN = 1;
 const int ORANGE = !GREEN;

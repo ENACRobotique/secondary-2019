@@ -6,6 +6,7 @@
  */
 
 #include "TurnBeeLaunchState.h"
+#include "MoveToCubeState.h"
 #include "DeadState.h"
 #include "RetractArmBeeState.h"
 #include "../Navigator.h"
@@ -27,7 +28,7 @@ TurnBeeLaunchState::~TurnBeeLaunchState() {
 
 void TurnBeeLaunchState::enter() {
 	Serial.println("Etat rotation vers l'abeille");
-	navigator.turn_to(-30);
+	navigator.turn_to(0);
 	time_start = millis();
 }
 
@@ -42,7 +43,7 @@ void TurnBeeLaunchState::doIt() {
 			arm.write(RETRACTED_ARM);
 		}
 		if(millis() - time_servo > SERVO_MOVEMENT_DURATION){
-			fsmSupervisor.setNextState(&deadState);
+			fsmSupervisor.setNextState(&moveToCubeState);
 		}
 	}
 }
@@ -53,7 +54,7 @@ void TurnBeeLaunchState::reEnter(unsigned long interruptTime){
 		arm.write(RETRACTED_ARM);
 	}
 	else{
-		navigator.turn_to(-50);
+		navigator.turn_to(0);
 	}
 }
 

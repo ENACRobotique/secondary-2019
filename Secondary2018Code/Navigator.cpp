@@ -39,15 +39,18 @@ void Navigator::move_to(float x, float y){
 }
 
 void Navigator::turn_to(float theta){
-	theta_target = center_radian(2*PI*theta/180);
+	theta_target = center_radian(PI*theta/180);
+	Serial.print("moving_to : ");
+	Serial.println(theta_target);
 	move_type = TURN;
 	move_state = INITIAL_TURN;
 	trajectory_done = false;
 }
 
-void Navigator::throw_to(float x, float y){
+void Navigator::throw_to(float x, float y, float theta){
 	x_target = x;
 	y_target = y;
+	theta_target = theta;
 	move_type = THROW;
 	move_state = CRUISE;
 	trajectory_done = false;
@@ -201,12 +204,7 @@ void Navigator::update(){
 				break;
 			}
 			speed_cons=compute_cons_speed();
-			if(move_type == THROW){
-				omega_cons = 0;
-			}
-			else{
-				omega_cons = compute_cons_omega();
-			}
+			omega_cons = compute_cons_omega();
 			MotorControl::set_cons(speed_cons,omega_cons);
 			break;
 		case STOPPED:

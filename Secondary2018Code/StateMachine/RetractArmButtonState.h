@@ -9,6 +9,7 @@
 #define STATEMACHINE_RETRACTARMBUTTONSTATE_H_
 
 #include "AbstractState.h"
+#include "../lib/USManager.h"
 
 class RetractArmButtonState : public AbstractState {
 public:
@@ -28,6 +29,7 @@ private:
 
 	unsigned long time_start;
 	unsigned long time_servo;
+	USDistances usDistances;
 };
 
 extern RetractArmButtonState retractArmButtonState;

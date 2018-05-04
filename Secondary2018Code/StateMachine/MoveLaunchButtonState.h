@@ -28,7 +28,7 @@ public:
 private:
 
 	unsigned long time_start;
-	unsigned long time_nav_start;
+	unsigned long time_servo;
 	USDistances usDistances;
 };
 

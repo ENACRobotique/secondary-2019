@@ -7,6 +7,7 @@
 
 #include "MoveToButtonState.h"
 #include "MoveLaunchButtonState.h"
+#include "TurnToButtonState.h"
 #include "TiretteState.h"
 #include "../Navigator.h"
 #include "Arduino.h"
@@ -16,11 +17,11 @@
 
 MoveToButtonState moveToButtonState = MoveToButtonState();
 
-float traj_button_orange[][2] = {	{830,1875},
-									{350,1875}
+float traj_button_green[][2] = {	{500,850},
+									{500,1150}
 };
-float traj_button_green[][2] = {	{830,1300},
-									{350,1300}
+float traj_button_orange[][2] = {	{500,2150},
+									{500,1850}
 };
 
 
@@ -73,7 +74,7 @@ void MoveToButtonState::leave() {
 void MoveToButtonState::doIt() {
 	if(navigator.isTrajectoryFinished()){
 			if(trajectory_index == 1){
-				fsmSupervisor.setNextState(&moveLaunchButtonState);
+				fsmSupervisor.setNextState(&turnToButtonState);
 			}
 			else{
 				trajectory_index+=1;
