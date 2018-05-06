@@ -1,19 +1,19 @@
 /*
- * TurnToBeeState.h
+ * ExtendArmBeeState.h
  *
  *  Created on: 18 avr. 2018
  *      Author: Maxime
  */
 
-#ifndef STATEMACHINE_TURNTOBEESTATE_H_
-#define STATEMACHINE_TURNTOBEESTATE_H_
+#ifndef STATEMACHINE_EXTENDARMBEESTATE_H_
+#define STATEMACHINE_EXTENDARMBEESTATE_H_
 
 #include "AbstractState.h"
 
-class TurnToBeeState : public AbstractState {
+class ExtendArmBeeState : public AbstractState {
 public:
-	TurnToBeeState();
-	virtual ~TurnToBeeState();
+	ExtendArmBeeState();
+	virtual ~ExtendArmBeeState();
 
 	void doIt();
 	void leave();
@@ -30,6 +30,6 @@ private:
 	unsigned long time_servo;
 };
 
-extern TurnToBeeState turnToBeeState;
+extern ExtendArmBeeState extendArmBeeState;
 
-#endif /* STATEMACHINE_TURNTOBEESTATE_H_ */
+#endif /* STATEMACHINE_EXTENDARMBEESTATE_H_ */

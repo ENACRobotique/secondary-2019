@@ -77,7 +77,7 @@ namespace Odometry{
 	void set_pos(float x, float y, float theta){
 		pos_x = x;
 		pos_y = y;
-		pos_theta = theta;
+		pos_theta = PI*theta/180;
 	}
 
 	void update() {

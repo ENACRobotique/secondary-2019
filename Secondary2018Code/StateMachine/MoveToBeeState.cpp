@@ -6,7 +6,6 @@
  */
 
 #include "MoveToBeeState.h"
-#include "TurnToBeeState.h"
 #include "TiretteState.h"
 #include "../Navigator.h"
 #include "Arduino.h"
@@ -14,6 +13,7 @@
 #include "FSMSupervisor.h"
 #include "../lib/USManager.h"
 #include "../odometry.h"
+#include "ExtendArmBeeState.h"
 
 MoveToBeeState moveToBeeState = MoveToBeeState();
 
@@ -21,27 +21,27 @@ MoveToBeeState moveToBeeState = MoveToBeeState();
 float traj_bee_green[][2] = { 	{600,200},
 								{600,600},
 								{1550,600},
-								{1550,200},
-								{0,0},
-								{1950,200}
+								{1830,400},
+								{-90,0},
+								{1830,50}
 };
 
 float traj_bee_orange[][2] = {	{600, 2800},
 								{600, 2400},
 								{1550,2400},
-								{1550,2800},
-								{0,0},
-								{1950,2800}
+								{1830,2600},
+								{-90,0},
+								{1830,2950}
 };
 
 MoveToBeeState::MoveToBeeState() {
 	time_start = 0;
 	flags = E_ULTRASOUND;
 	trajectory_index = 0;
-	usDistances.front_left = 30;
-	usDistances.front_right = 30;
-	usDistances.rear_left = 30;
-	usDistances.rear_right = 30;
+	usDistances.front_left = 0;
+	usDistances.front_right = 0;
+	usDistances.rear_left = 0;
+	usDistances.rear_right = 0;
 }
 
 MoveToBeeState::~MoveToBeeState() {
@@ -87,12 +87,12 @@ void MoveToBeeState::doIt() {
 		Serial.println(trajectory_index);
 		if(trajectory_index == 5){
 			if(tiretteState.get_color() == GREEN){
-				Odometry::set_pos(1910,200,0);
+				Odometry::set_pos(1830,90,-90);
 			}
 			else{
-				Odometry::set_pos(1910,2800,0);
+				Odometry::set_pos(1830,2910,-90);
 			}
-			fsmSupervisor.setNextState(&turnToBeeState);
+			fsmSupervisor.setNextState(&extendArmBeeState);
 		}
 		else{
 			trajectory_index+=1;
@@ -102,6 +102,7 @@ void MoveToBeeState::doIt() {
 				usDistances.front_right = 0;
 				usDistances.rear_left = 0;
 				usDistances.rear_right = 0;
+				usManager.setMinRange(&usDistances);
 			}
 			else{
 				if(tiretteState.get_color() == GREEN){
@@ -152,11 +153,16 @@ void MoveToBeeState::doIt() {
 
 void MoveToBeeState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	if(tiretteState.get_color() == GREEN){
-		navigator.move_to(traj_bee_green[trajectory_index][0],traj_bee_green[trajectory_index][1]);
+	if(trajectory_index == 4){
+		navigator.turn_to(-90);
 	}
 	else{
-		navigator.move_to(traj_bee_orange[trajectory_index][0],traj_bee_orange[trajectory_index][1]);
+		if(tiretteState.get_color() == GREEN){
+			navigator.move_to(traj_bee_green[trajectory_index][0],traj_bee_green[trajectory_index][1]);
+		}
+		else{
+			navigator.move_to(traj_bee_orange[trajectory_index][0],traj_bee_orange[trajectory_index][1]);
+		}
 	}
 }
 

@@ -7,24 +7,28 @@
 
 #include "MoveToCubeState.h"
 #include "MoveToButtonState.h"
+#include "MoveToCubeState2.h"
 #include "DeadState.h"
 #include "TiretteState.h"
 #include "../Navigator.h"
 #include "Arduino.h"
 #include "../params.h"
+#include "../odometry.h"
 #include "FSMSupervisor.h"
 #include "../lib/USManager.h"
 
 MoveToCubeState moveToCubeState = MoveToCubeState();
 
-float traj_cube_green[][2] = { 	{1550,200},
-								{1550,850},
-								{200,850}
+float traj_cube_green[][2] = { 	{1550,300},
+								{1550,860},
+								{0,0},
+								{200,860}
 };
 
-float traj_cube_orange[][2] = {	{1550, 2800},
-								{1550,2150},
-								{200,2150},
+float traj_cube_orange[][2] = {	{1550, 2700},
+								{1550,2140},
+								{0,0},
+								{200,2140}
 };
 
 MoveToCubeState::MoveToCubeState() {
@@ -77,52 +81,67 @@ void MoveToCubeState::doIt() {
 	if(navigator.isTrajectoryFinished()){
 		Serial.print("trajectory:");
 		Serial.println(trajectory_index);
-		if(trajectory_index == 2){
-			fsmSupervisor.setNextState(&moveToButtonState);
+		if(trajectory_index == 3){
+			fsmSupervisor.setNextState(&moveToCubeState2);
+			if(tiretteState.get_color() == GREEN){
+				Odometry::set_pos(260,860,0);
+			}
+			else{
+				Odometry::set_pos(260,2140,0);
+			}
 		}
 		else{
 			trajectory_index+=1;
-
-			if(tiretteState.get_color() == GREEN){
-				navigator.move_to(traj_cube_green[trajectory_index][0],traj_cube_green[trajectory_index][1]);
+			if(trajectory_index == 2){
+				navigator.turn_to(0);
+				usDistances.front_left = 0;
+				usDistances.front_right = 0;
+				usDistances.rear_left = 0;
+				usDistances.rear_right = 0;
+				usManager.setMinRange(&usDistances);
 			}
 			else{
-				Serial.println("Orange");
-				navigator.move_to(traj_cube_orange[trajectory_index][0],traj_cube_orange[trajectory_index][1]);
-			}
-
-			if(navigator.moveForward()){
-				Serial.println("Forward");
-				if(trajectory_index==2){
-					usDistances.front_left = 0;
-					usDistances.front_right = 0;
-					usDistances.rear_left = 0;
-					usDistances.rear_right = 0;
+				if(tiretteState.get_color() == GREEN){
+					navigator.move_to(traj_cube_green[trajectory_index][0],traj_cube_green[trajectory_index][1]);
 				}
 				else{
-					usDistances.front_left = 30;
-					usDistances.front_right = 30;
-					usDistances.rear_left = 0;
-					usDistances.rear_right = 0;
+					Serial.println("Orange");
+					navigator.move_to(traj_cube_orange[trajectory_index][0],traj_cube_orange[trajectory_index][1]);
 				}
-			}
-			else{
 
-				Serial.println("Backwards");
-				if(trajectory_index==2){
-					usDistances.front_left = 0;
-					usDistances.front_right = 0;
-					usDistances.rear_left = 0;
-					usDistances.rear_right = 0;
+				if(navigator.moveForward()){
+					Serial.println("Forward");
+					if(trajectory_index==2){
+						usDistances.front_left = 0;
+						usDistances.front_right = 0;
+						usDistances.rear_left = 0;
+						usDistances.rear_right = 0;
+					}
+					else{
+						usDistances.front_left = 30;
+						usDistances.front_right = 30;
+						usDistances.rear_left = 0;
+						usDistances.rear_right = 0;
+					}
 				}
 				else{
-					usDistances.front_left = 0;
-					usDistances.front_right = 0;
-					usDistances.rear_left = 30;
-					usDistances.rear_right = 30;
+
+					Serial.println("Backwards");
+					if(trajectory_index==2){
+						usDistances.front_left = 0;
+						usDistances.front_right = 0;
+						usDistances.rear_left = 0;
+						usDistances.rear_right = 0;
+					}
+					else{
+						usDistances.front_left = 0;
+						usDistances.front_right = 0;
+						usDistances.rear_left = 30;
+						usDistances.rear_right = 30;
+					}
 				}
+				usManager.setMinRange(&usDistances);
 			}
-			usManager.setMinRange(&usDistances);
 		}
 	}
 
@@ -130,11 +149,16 @@ void MoveToCubeState::doIt() {
 
 void MoveToCubeState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	if(tiretteState.get_color() == GREEN){
-		navigator.move_to(traj_cube_green[trajectory_index][0],traj_cube_green[trajectory_index][1]);
+	if(trajectory_index == 2){
+		navigator.turn_to(0);
 	}
 	else{
-		navigator.move_to(traj_cube_orange[trajectory_index][0],traj_cube_orange[trajectory_index][1]);
+		if(tiretteState.get_color() == GREEN){
+			navigator.move_to(traj_cube_green[trajectory_index][0],traj_cube_green[trajectory_index][1]);
+		}
+		else{
+			navigator.move_to(traj_cube_orange[trajectory_index][0],traj_cube_orange[trajectory_index][1]);
+		}
 	}
 }
 

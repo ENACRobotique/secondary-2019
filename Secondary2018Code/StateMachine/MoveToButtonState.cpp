@@ -30,10 +30,10 @@ MoveToButtonState::MoveToButtonState() {
 	trajectory_index = 0;
 	time_servo = 0;
 	flags = E_ULTRASOUND;
-	usDistances.front_left = 30;
-	usDistances.front_right = 30;
-	usDistances.rear_left = 30;
-	usDistances.rear_right = 30;
+	usDistances.front_left = 0;
+	usDistances.front_right = 0;
+	usDistances.rear_left = 0;
+	usDistances.rear_right = 0;
 }
 
 MoveToButtonState::~MoveToButtonState() {
