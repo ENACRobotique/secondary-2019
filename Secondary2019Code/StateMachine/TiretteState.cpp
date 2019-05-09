@@ -42,8 +42,9 @@ void TiretteState::enter() {
 	pinMode(TIRETTE,INPUT_PULLUP);
 	pinMode(COLOR,INPUT_PULLUP);
     Wire2.begin(I2C_MASTER, 0x00, I2C_PINS_3_4, I2C_PULLUP_EXT, 400000);
-	Wire2.setSDA(4);
-	Wire2.setSCL(3);
+    //TODO FIx this shit
+	//Wire2.setSDA(4);
+	//Wire2.setSCL(3);
 	uint8_t USadresses[] = {0X75, 0X71, 0X70, 0X73};
 	usManager.init(USadresses);
 }
