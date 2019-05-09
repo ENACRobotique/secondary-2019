@@ -27,7 +27,7 @@ RetractArmBeeState::~RetractArmBeeState() {
 void RetractArmBeeState::enter() {
 	Serial.println("Etat rangement du bras");
 	time_start = millis();
-	arm.write(RETRACTED_ARM);
+	//arm.write(RETRACTED_ARM);
 }
 
 void RetractArmBeeState::leave() {

@@ -76,7 +76,7 @@ void MoveLaunchButtonState::reEnter(unsigned long interruptTime){
 		}
 	}
 	else{
-		arm.write(EXTENDED_ARM);
+		//arm.write(EXTENDED_ARM);
 	}
 }
 

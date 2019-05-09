@@ -96,13 +96,13 @@ float Navigator::compute_cons_speed()
 			speed_cons = sgn*min(SPEED_MAX,abs(Odometry::get_speed()) + MAX_ACCEL*NAVIGATOR_TIME_PERIOD);
 		}
 	}
-	/*Serial.print("Distances estimées");
+	Serial.print("Distances estimées");
 	Serial.print("\t");
 	Serial.print(dist_fore - dist_objective);
 	Serial.print("\t");
 	Serial.print(dist_objective);
 	Serial.print("\tspeed= ");
-	Serial.println(Odometry::get_speed());*/
+	Serial.println(Odometry::get_speed());
 	return speed_cons;
 }
 
@@ -138,14 +138,14 @@ float Navigator::compute_cons_omega()
 			omega_cons = sgn*max(0,abs(Odometry::get_omega()) - NAVIGATOR_TIME_PERIOD*ACCEL_OMEGA_MAX);
 		}
 	}
-	/*Serial.print("Consigne angle:");
+	Serial.print("Consigne angle:");
 	Serial.print(omega_cons);
 	Serial.print("\t");
 	Serial.print("Alpha:");
 	Serial.print(alpha);
 	Serial.print("\t");
 	Serial.print("angle_fore:");
-	Serial.println(angle_fore);*/
+	Serial.println(angle_fore);
 
 	return omega_cons;
 }
@@ -166,10 +166,10 @@ void Navigator::update(){
 		switch(move_state){
 		case INITIAL_TURN:
 			if(move_type==DISPLACEMENT){
-				digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+				/*digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
 				delay(500);               // wait for a second
 				digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
-				delay(500);
+				delay(500);*/
 				alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
 			}
 			else{

@@ -92,12 +92,15 @@ namespace MotorControl {
 
 		Serial.print(cons_speed);
 		Serial.print("\t");
-		Serial.print(Odometry::get_speed());
-		Serial.print("\t");
-		Serial.println();/*
-		Serial.print(cons_omega);
-		Serial.print("\t");
-		Serial.println(Odometry::get_omega());*/
+		//Serial.print(Odometry::get_speed());
+		//Serial.print(cmd_mot1);
+		//Serial.print("\t");
+		//Serial.print(cmd_mot2);
+		//Serial.print("\t");
+		//Serial.println();
+		Serial.println(cons_omega);
+		//Serial.print("\t");
+		//Serial.println(Odometry::get_omega());
 		//Serial.print("\t");
 		//Serial.print(error_speed);
 		//Serial.println("\t");

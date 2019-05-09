@@ -61,7 +61,7 @@ void RetractArmButtonState::doIt() {
 	if(navigator.isTrajectoryFinished()){
 		if(time_servo ==0){
 			time_servo = millis();
-			arm.write(RETRACTED_ARM);
+			//arm.write(RETRACTED_ARM);
 		}
 		if (millis() - time_servo > SERVO_MOVEMENT_DURATION) {
 			fsmSupervisor.setNextState(&deadState);
@@ -73,7 +73,7 @@ void RetractArmButtonState::doIt() {
 void RetractArmButtonState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
 	if(navigator.isTrajectoryFinished()){
-		arm.write(RETRACTED_ARM);
+		//arm.write(RETRACTED_ARM);
 	}
 	else{
 		if(tiretteState.get_color() == GREEN){

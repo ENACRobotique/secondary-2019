@@ -26,7 +26,7 @@ ExtendArmBeeState::~ExtendArmBeeState() {
 
 void ExtendArmBeeState::enter() {
 	Serial.println("Etat rotation vers l'abeille");
-	arm.write(EXTENDED_ARM);
+	//arm.write(EXTENDED_ARM);
 	time_start = millis();
 }
 
@@ -43,7 +43,7 @@ void ExtendArmBeeState::doIt() {
 
 void ExtendArmBeeState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	arm.write(EXTENDED_ARM);
+	//arm.write(EXTENDED_ARM);
 }
 
 void ExtendArmBeeState::forceLeave(){

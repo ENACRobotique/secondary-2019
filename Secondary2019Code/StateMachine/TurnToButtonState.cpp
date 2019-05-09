@@ -39,7 +39,7 @@ void TurnToButtonState::doIt() {
 	if(navigator.isTrajectoryFinished()){
 		if(time_servo == 0){
 			time_servo = millis();
-			arm.write(EXTENDED_ARM);
+			//arm.write(EXTENDED_ARM);
 		}
 		if(millis() - time_servo > SERVO_MOVEMENT_DURATION){
 			fsmSupervisor.setNextState(&moveLaunchButtonState);
