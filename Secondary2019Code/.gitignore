@@ -1,2 +1,7 @@
 Release/
 
+.project
+.settings/*
+spec.d
+
+

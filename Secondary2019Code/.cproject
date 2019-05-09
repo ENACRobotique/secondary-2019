@@ -48,6 +48,8 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Metro}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Servo}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Servo/src}&quot;"/>
                                     								
                                 </option>
                                 								
@@ -66,6 +68,8 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/i2c_t3}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Metro}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Servo/src}&quot;"/>
                                     								
                                 </option>
                                 								
@@ -84,6 +88,8 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/i2c_t3}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Metro}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Servo/src}&quot;"/>
                                     								
                                 </option>
                                 								
