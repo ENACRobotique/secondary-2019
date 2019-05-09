@@ -17,6 +17,8 @@ float omega = PI / 2;
 int led = 13;
 int deb;
 unsigned int temps[4] = {5000,500/speed*1000, 2000, 500/speed * 1000};
+int xdep = 420;
+int ydep = 50;
 
 void setup()
 {
@@ -26,7 +28,7 @@ void setup()
 	digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
 	delay(1000);*/
 	Serial.begin(115200);
-	//while(!Serial){}
+	while(!Serial){}
 	Serial.println("INIT Serial");
 	Odometry::init();
 	Serial.println("INIT odom");
@@ -36,8 +38,7 @@ void setup()
 	controlTime.reset();
 	navigatorTime.reset();
 	deb = millis();
-	Odometry::set_pos(0, 0, 0);
-	//navigator.move_to(1000,0);
+	//Odometry::set_pos(xdep, ydep, 0);
 }
 
 int i = 0;
@@ -45,13 +46,69 @@ int i = 0;
 // The loop function is called in an endless loop
 void loop()
 {
-
+/*
+	if(i == 0){
+			navigator.move_to(xdep + 500, ydep);
+			i++;
+	}
+	if(navigator.isTrajectoryFinished() && i == 1){
+			navigator.turn_to(90);
+			i++;
+	}
+	if(navigator.isTrajectoryFinished() && i == 2){
+			navigator.move_to(xdep + 500, ydep + 500 );
+			i++;
+	}
+	if(navigator.isTrajectoryFinished() && i == 3){
+			navigator.turn_to(180);
+			i++;
+	}
+	if(navigator.isTrajectoryFinished() && i == 4){
+			navigator.move_to(xdep, ydep + 500 );
+			i++;
+	}
+	if(navigator.isTrajectoryFinished() && i == 5){
+			navigator.turn_to(270);
+			i++;
+	}
+	if(navigator.isTrajectoryFinished() && i == 6){
+			navigator.move_to(xdep, ydep);
+			i++;
+	}*/
 
 	//MotorControl::set_cons(speed, 0);
-	//navigator.move_to(1000,0);
+	/*if(i == 0){
+		navigator.move_to(490 + 50,420);
+		i++;
+	}
+	if(navigator.isTrajectoryFinished() && i == 1){
+		navigator.turn_to(90);
+		//navigator.move_to(0,0);
+		i++;
+	}
+	if(navigator.isTrajectoryFinished() && i == 2){
+			//navigator.turn_to(180);
+			navigator.move_to(490 + 50,620 + 420);
+			i++;
+	}*/
+	/*if(navigator.isTrajectoryFinished() && i == 3){
+			navigator.turn_to(180);
+			//navigator.move_to(0,0);
+			i++;
+	}
+	if(navigator.isTrajectoryFinished() && i == 4){
+				//navigator.turn_to(180);
+				navigator.move_to(50,620 + 420);
+				i++;
+	}
+*/
+	if((millis() - deb) > 2000){
+				MotorControl::set_cons(speed, 0);
+				deb = millis();
+				speed = -speed;
+	}
 
-
-	if((millis() - deb) > temps[i]){
+/*	if((millis() - deb) > temps[i]){
 		if(i == 0){
 			MotorControl::set_cons(speed, 0);
 			deb = millis();
@@ -72,7 +129,7 @@ void loop()
 			deb = millis();
 		}
 	}
-
+*/
 	/*analogWrite(MOT1_PWM, 200);
 	digitalWrite(MOT1_DIR, 0);
 	analogWrite(MOT2_PWM, 200);

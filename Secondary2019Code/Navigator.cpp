@@ -38,7 +38,7 @@ void Navigator::move_to(float x, float y){
 	Serial.println(y_target);
 }
 
-void Navigator::turn_to(float theta){
+void Navigator::turn_to(float theta){ // En degrés
 	theta_target = center_radian(PI*theta/180);
 	Serial.print("moving_to : ");
 	Serial.println(theta_target);

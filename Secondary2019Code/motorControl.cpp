@@ -90,12 +90,11 @@ namespace MotorControl {
 		analogWrite(MOT2_PWM, abs(cmd_mot2));
 		digitalWrite(MOT2_DIR, direction_sign(cmd_mot2));
 
-/*
 		Serial.print(cons_speed);
 		Serial.print("\t");
 		Serial.print(Odometry::get_speed());
 		Serial.print("\t");
-		Serial.println();*//*
+		Serial.println();/*
 		Serial.print(cons_omega);
 		Serial.print("\t");
 		Serial.println(Odometry::get_omega());*/
