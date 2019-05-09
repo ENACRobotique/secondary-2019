@@ -32,6 +32,7 @@ TiretteState::~TiretteState() {
 }
 
 void TiretteState::enter() {
+	Serial.println("Entrer dans tiretteState");
 	time_start = millis();
 	Serial.println("Etat tirette");
 	Dynamixel.begin(1000000, DYNAMIXEL_CONTROL);
@@ -49,11 +50,11 @@ void TiretteState::enter() {
 
 void TiretteState::leave() {
 	if(digitalRead(COLOR) == GREEN){
-		Odometry::set_pos(550, 170, 0);
+		Odometry::set_pos(0, 0, 0);
 		COLOR_BEGIN = GREEN;
 	}
 	else{
-		Odometry::set_pos(550,2830,0);
+		Odometry::set_pos(0,0,0);
 		COLOR_BEGIN = ORANGE;
 	}
 }
@@ -73,6 +74,10 @@ void TiretteState::doIt() {
 //	Serial.print("rear right:");
 //	Serial.println(distances.rear_right);
 	if (!digitalRead(TIRETTE)) {
+		/*digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+		delay(1000);               // wait for a second
+		digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
+		delay(1000);*/
 		Serial.println("On change d'etat : gooooo!!");
 		time_start = millis();
 		fsmSupervisor.setNextState(&moveToWaterState);

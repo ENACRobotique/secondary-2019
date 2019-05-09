@@ -166,13 +166,19 @@ void Navigator::update(){
 		switch(move_state){
 		case INITIAL_TURN:
 			if(move_type==DISPLACEMENT){
+				digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+				delay(500);               // wait for a second
+				digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
+				delay(500);
 				alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
 			}
 			else{
 				alpha = theta_target;
 			}
 			turn_done = ((abs(center_radian(Odometry::get_pos_theta() - alpha)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
+
 			if(turn_done){
+
 				MotorControl::set_cons(0,0);
 				switch(move_type){
 				case TURN:
@@ -191,8 +197,12 @@ void Navigator::update(){
 				}
 				break;
 			}
+
 			omega_cons = compute_cons_omega();
 			MotorControl::set_cons(0,omega_cons);
+
+			MotorControl::set_cons(0,omega_cons);
+
 			break;
 		case CRUISE:
 			distance = sqrt(pow(x_target - Odometry::get_pos_x(),2) + pow(y_target - Odometry::get_pos_y(),2));

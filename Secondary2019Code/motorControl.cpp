@@ -17,10 +17,10 @@ int clamp(int inf, int sup, float x) {
 
 int direction_sign(int nb) {
 	if(nb>0) {
-		return 1;
+		return 0;
 	}
 	else {
-		return 0;
+		return 1;
 	}
 }
 
@@ -28,11 +28,11 @@ namespace MotorControl {
 
 	float cons_speed;
 	float cons_omega;
-	float Ki_speed = 0.2;
-	float Kp_speed = 0.5;
+	float Ki_speed = 0.175;//0.2;
+	float Kp_speed = 0.5;//0.5;
 	float Kd_speed = 0;
-	float Ki_omega = 20;
-	float Kp_omega = 30;
+	float Ki_omega = 17.5;//20;
+	float Kp_omega = 30;//30;
 	float Kd_omega = 0;
 
 	float error_integrale_speed;
@@ -90,18 +90,19 @@ namespace MotorControl {
 		analogWrite(MOT2_PWM, abs(cmd_mot2));
 		digitalWrite(MOT2_DIR, direction_sign(cmd_mot2));
 
-
-		/*Serial.print(cons_speed);
+/*
+		Serial.print(cons_speed);
 		Serial.print("\t");
 		Serial.print(Odometry::get_speed());
 		Serial.print("\t");
+		Serial.println();*//*
 		Serial.print(cons_omega);
 		Serial.print("\t");
-		Serial.println(Odometry::get_omega());
-		Serial.print("\t");
-		Serial.print(error_speed);
-		Serial.print("\t");
-		Serial.print(error_omega);
+		Serial.println(Odometry::get_omega());*/
+		//Serial.print("\t");
+		//Serial.print(error_speed);
+		//Serial.println("\t");
+		/*Serial.print(error_omega);
 		Serial.println("\t");*/
 	}
 }

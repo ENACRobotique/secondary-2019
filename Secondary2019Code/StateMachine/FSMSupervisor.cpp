@@ -43,9 +43,10 @@ void FSMSupervisor::update() {
 		currentState = nextState;
 		nextState = NULL;
 	}
+
 	currentState->doIt();
 
-	if(currentState->getFlags() & E_ULTRASOUND){
+	/*if(currentState->getFlags() & E_ULTRASOUND){
 		usManager.update();
 		if(usManager.obstacleDetected()){
 			time_obstacle_left = 0;
@@ -71,10 +72,12 @@ void FSMSupervisor::update() {
 				}
 			}
 		}
-	}
+	}*/
+
 }
 
 void FSMSupervisor::init(AbstractState* state) {
 	currentState = state;
+	Serial.println("INIT FMS");
 	state->enter();
 }

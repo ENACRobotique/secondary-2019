@@ -21,11 +21,13 @@ namespace Odometry{
 		pinMode(ENCODEUR1_A,INPUT_PULLUP);
 		pinMode(ENCODEUR1_B,INPUT_PULLUP);
 		attachInterrupt(ENCODEUR1_A, isr1, FALLING);
+		//attachInterrupt(ENCODEUR1_A, isr1, RISING);
 		_incr1 = 0;
 
 		pinMode(ENCODEUR2_A,INPUT_PULLUP);
 		pinMode(ENCODEUR2_B,INPUT_PULLUP);
 		attachInterrupt(ENCODEUR2_A, isr2, RISING);
+		//attachInterrupt(ENCODEUR2_A, isr2, FALLING);
 		_incr2 = 0;
 
 		pos_x = pos_y = pos_theta = speed = omega = 0;
@@ -34,23 +36,23 @@ namespace Odometry{
 
 	void isr1() {
 		if(digitalRead(ENCODEUR1_B)) {
-			//_incr1++;
-			_incr1--;
+			_incr1++;
+			//_incr1--;
 		}
 		else {
-			//_incr1--;
-			_incr1++;
+			_incr1--;
+			//_incr1++;
 		}
 	}
 
 	void isr2() {
 			if(digitalRead(ENCODEUR2_B)) {
-				//_incr2++;
-				_incr2--;
+				_incr2++;
+				//_incr2--;
 			}
 			else {
-				//_incr2--;
-				_incr2++;
+				_incr2--;
+				//_incr2++;
 			}
 		}
 
