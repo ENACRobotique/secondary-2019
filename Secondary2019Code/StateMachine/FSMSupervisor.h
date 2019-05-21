@@ -9,6 +9,7 @@
 #define STATEMACHINE_FSMSUPERVISOR_H_
 
 #include "AbstractState.h"
+#include "../lidar/LidarManager.h"
 
 class FSMSupervisor {
 public:
@@ -17,6 +18,7 @@ public:
 	void setNextState(AbstractState* state);
 	void update();
 	void init(AbstractState * state);
+	LidarManager lidarManager = LidarManager();
 
 private:
 
@@ -24,6 +26,7 @@ private:
 	AbstractState* currentState;
 	AbstractState* previousState;
 	unsigned long time_obstacle_left;
+	int deb;
 };
 
 extern FSMSupervisor fsmSupervisor;

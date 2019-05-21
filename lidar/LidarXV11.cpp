@@ -154,16 +154,10 @@ void LidarXV11::read_data(int i) {
 	packet.warning[i] = (data[1] & 0b01000000);
 	packet.strength[i] = (data[3] << 8) | data[2];
 	distance_angle[(packet.index - 0xA0)  * 4 + i] = packet.distance[i];
-	valid_angle[(packet.index - 0xA0)  * 4 + i] = !packet.invalid[i];
-
 }
 
-int LidarXV11::get_distance(int angle){
+int LidarXV11::distance_at_angle(int angle){
 	return distance_angle[angle];
-}
-
-bool LidarXV11::is_valid(int angle){
-	return valid_angle[angle];
 }
 
 

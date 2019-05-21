@@ -39,8 +39,7 @@ public:
 	void init();
 	void update(uint8_t byte);
 	void display_package(struct Package_Data* p);
-	int get_distance(int angle);
-	bool is_valid(int angle);
+	int distance_at_angle(int angle);
 	bool is_packet_available(){
 		return(packet_available);
 	}
@@ -63,7 +62,6 @@ private:
 	uint32_t chk32;
 	uint16_t checksum;
 	int distance_angle[360];
-	int valid_angle[360];
 };
 
 #endif /* LIDARXV11_H_ */

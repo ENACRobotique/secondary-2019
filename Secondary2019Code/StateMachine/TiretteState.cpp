@@ -13,7 +13,7 @@
 #include "FSMSupervisor.h"
 #include "DynamixelSerial4.h"
 #include "../odometry.h"
-#include "../libraries/i2c_t3/i2c_t3.h"
+//#include "../libraries/i2c_t3/i2c_t3.h"
 #include "../lib/USManager.h"
 
 TiretteState tiretteState = TiretteState();
@@ -41,7 +41,7 @@ void TiretteState::enter() {
 
 	pinMode(TIRETTE,INPUT_PULLUP);
 	pinMode(COLOR,INPUT_PULLUP);
-    Wire2.begin(I2C_MASTER, 0x00, I2C_PINS_3_4, I2C_PULLUP_EXT, 400000);
+  //  Wire2.begin(I2C_MASTER, 0x00, I2C_PINS_3_4, I2C_PULLUP_EXT, 400000);
     //TODO FIx this shit
 	//Wire2.setSDA(4);
 	//Wire2.setSCL(3);
@@ -51,18 +51,18 @@ void TiretteState::enter() {
 
 void TiretteState::leave() {
 	if(digitalRead(COLOR) == GREEN){
-		Odometry::set_pos(0, 0, 0);
+		Odometry::set_pos(1500, 1000, 0);
 		COLOR_BEGIN = GREEN;
 	}
 	else{
-		Odometry::set_pos(0,0,0);
+		Odometry::set_pos(1500, 1000, 0);
 		COLOR_BEGIN = ORANGE;
 	}
 }
 
 void TiretteState::doIt() {
 	time_start = millis();
-	USDistances distances =usManager.getRanges();
+//	USDistances distances =usManager.getRanges();
 //	Serial.print("front left:");
 //	Serial.print(distances.front_left);
 //	Serial.print("\t");
@@ -81,6 +81,9 @@ void TiretteState::doIt() {
 		delay(1000);*/
 		Serial.println("On change d'etat : gooooo!!");
 		time_start = millis();
+		fsmSupervisor.setNextState(&moveToWaterState);
+	}
+	else{ // Pour le test sans tirette
 		fsmSupervisor.setNextState(&moveToWaterState);
 	}
 //	if(digitalRead(COLOR) == GREEN){

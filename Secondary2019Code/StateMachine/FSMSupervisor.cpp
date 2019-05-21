@@ -14,6 +14,7 @@
 #include "../params.h"
 #include "../lib/USManager.h"
 
+
 FSMSupervisor fsmSupervisor = FSMSupervisor();
 
 FSMSupervisor::FSMSupervisor() {
@@ -22,6 +23,8 @@ FSMSupervisor::FSMSupervisor() {
 	currentState = NULL;
 	previousState = NULL;
 	time_obstacle_left = 0;
+	deb = millis();
+
 }
 
 FSMSupervisor::~FSMSupervisor() {
@@ -46,10 +49,22 @@ void FSMSupervisor::update() {
 
 	currentState->doIt();
 
-	/*if(currentState->getFlags() & E_ULTRASOUND){
-		usManager.update();
-		if(usManager.obstacleDetected()){
+	if(Serial1.available()){
+		lidarManager.update();
+	}
+
+	if(/*currentState->getFlags() & E_ULTRASOUND &*/ (millis() - deb > 50)){
+		deb = millis();
+
+		unsigned int angleA = currentState->getAngles().angleA;
+		unsigned int angleB = currentState->getAngles().angleB;
+		Serial.print(angleA);
+		Serial.print("   ");
+		Serial.println(angleB);
+		Serial.println(lidarManager.obstacleDetected(angleA, angleB));
+		if(lidarManager.obstacleDetected(angleA, angleB)){
 			time_obstacle_left = 0;
+			Serial.println("Obstacle detected");
 			if(currentState != &pauseState){			// on va dans l'état pause
 				currentState->forceLeave();
 				previousState = currentState;
@@ -72,8 +87,7 @@ void FSMSupervisor::update() {
 				}
 			}
 		}
-	}*/
-
+	}
 }
 
 void FSMSupervisor::init(AbstractState* state) {

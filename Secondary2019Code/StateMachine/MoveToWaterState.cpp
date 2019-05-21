@@ -23,6 +23,8 @@ MoveToWaterState::MoveToWaterState() {
 	usDistances.front_right = 0;
 	usDistances.rear_left = 0;
 	usDistances.rear_right = 0;
+	angles.angleA = 170;
+	angles.angleB = 190;
 }
 
 MoveToWaterState::~MoveToWaterState() {
@@ -37,11 +39,12 @@ void MoveToWaterState::enter() {
 	Serial.println("Etat déplacement vers l'eau");
 
 	if(tiretteState.get_color() == GREEN){
-		navigator.move_to(1000,0);
+		navigator.move_to(2500,1000);
 	}
 	else{
-		navigator.move_to(1000,0);
+		navigator.move_to(2500,1000);
 	}
+	Serial.println("Move to water state");
 
 	/*if(navigator.moveForward()){
 		Serial.println("Forward");
@@ -68,18 +71,25 @@ void MoveToWaterState::leave() {
 
 void MoveToWaterState::doIt() {
 	if(navigator.isTrajectoryFinished()){
-		fsmSupervisor.setNextState(&throwState);
+		//fsmSupervisor.setNextState(&throwState);
 	}
 
 }
 
 void MoveToWaterState::reEnter(unsigned long interruptTime){
 	time_start+=interruptTime;
-	if(digitalRead(COLOR) == GREEN){
+	/*if(digitalRead(COLOR) == GREEN){
 		navigator.move_to(POS_X_WATER,POS_Y_WATER_GREEN);
 	}
 	else{
 		navigator.move_to(POS_X_WATER,POS_Y_WATER_ORANGE);
+	}*/
+	Serial.println("reenter");
+	if(digitalRead(COLOR) == GREEN){
+		navigator.move_to(2500,1000);
+	}
+	else{
+		navigator.move_to(2500,1000);
 	}
 }
 

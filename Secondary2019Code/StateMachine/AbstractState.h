@@ -22,6 +22,11 @@ enum services {
 	E_ULTRASOUND = 1,
 };
 
+struct Angles {
+		unsigned int angleA;
+		unsigned int angleB;
+};
+
 class AbstractState {
 public:
 	AbstractState();
@@ -37,12 +42,17 @@ public:
 		return flags;
 	}
 
+	struct Angles getAngles() {
+		return(angles);
+	}
+
 	void setFlags(unsigned long flags) {
 		this->flags = flags;
 	}
 
 protected:
 	unsigned long flags;
+	struct Angles angles;
 	//unsigned long time_start;
 };
 

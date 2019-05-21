@@ -24,8 +24,14 @@ e/.project
 #include "odometry.h"
 #include "motorControl.h"
 #include "Navigator.h"
+#include "Servo.h"
 #include "StateMachine/FSMSupervisor.h"
+//#include "lidar/LidarXV11.h"
+//#include "lidar/LidarManager.h"
+
+
 #include "StateMachine/TiretteState.h"
+
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 Metro navigatorTime = Metro(NAVIGATOR_TIME_PERIOD * 1000);
 
@@ -41,6 +47,9 @@ int ydep = 420;
 Servo mandibuleGauche = Servo();
 Servo mandibuleDroite = Servo();
 
+//LidarManager lidarManager = LidarManager();
+
+
 
 void setup()
 {
@@ -50,13 +59,15 @@ void setup()
 	digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
 	delay(1000);*/
 	Serial.begin(115200);
-	//while(!Serial){}
+	Serial1.begin(115200);
+
+	while(!Serial){}
 	//Serial.println("INIT Serial");
 	Odometry::init();
 	//Serial.println("INIT odom");
 	MotorControl::init();
 	//Serial.println("INIT motor");
-	//fsmSupervisor.init(&tiretteState);
+	fsmSupervisor.init(&tiretteState);
 	controlTime.reset();
 	navigatorTime.reset();
 	deb = millis();
@@ -65,17 +76,35 @@ void setup()
 	mandibuleGauche.write(MANDIBULE_GAUCHE_HAUT);
 	mandibuleDroite.attach(SERVO1);
 	mandibuleDroite.write(MANDIBULE_DROITE_HAUT);
+	//Serial.println(lidarManager.is_ignored2(1254,1533));
+
 }
 
 int i = 0;
 
+
+
 // The loop function is called in an endless loop
 void loop()
 {
-	/*if(millis() - deb > 3000){
-		mandibuleGauche.write(MANDIBULE_GAUCHE_HAUT);
-		mandibuleDroite.write(MANDIBULE_DROITE_HAUT);
-	}*/
+/*
+	if (Serial1.available()){
+		lidarManager.update();
+		//if (lidarManager.lidar.is_packet_available()){
+		if(millis() - deb > 200){
+			deb = millis();
+			Odometry::set_pos(1500, 1300, 90);
+			bool obs_detected = lidarManager.obstacleDetected(170, 190);
+			Serial.println(obs_detected);
+			//Serial.println(lidarManager.lidar.get_distance(180));
+
+		}
+	}
+
+*/
+
+
+/*
 	if(i == 0){
 			navigator.move_to(540, 420);
 			i++;
@@ -112,76 +141,11 @@ void loop()
 					mandibuleDroite.write(MANDIBULE_DROITE_HAUT);
 					mandibuleGauche.write(MANDIBULE_GAUCHE_HAUT);
 					i++;
-	}
-	/*if(navigator.isTrajectoryFinished() && i == 5){
-			navigator.turn_to(270);
-			i++;
-	}
-	if(navigator.isTrajectoryFinished() && i == 6){
-			navigator.move_to(xdep, ydep);
-			i++;
 	}*/
 
-	//MotorControl::set_cons(speed, 0);
-	/*if(i == 0){
-		navigator.move_to(490 + 50,420);
-		i++;
-	}
-	if(navigator.isTrajectoryFinished() && i == 1){
-		navigator.turn_to(90);
-		//navigator.move_to(0,0);
-		i++;
-	}
-	if(navigator.isTrajectoryFinished() && i == 2){
-			//navigator.turn_to(180);
-			navigator.move_to(490 + 50,620 + 420);
-			i++;
-	}*/
-	/*if(navigator.isTrajectoryFinished() && i == 3){
-			navigator.turn_to(180);
-			//navigator.move_to(0,0);
-			i++;
-	}
-	if(navigator.isTrajectoryFinished() && i == 4){
-				//navigator.turn_to(180);
-				navigator.move_to(50,620 + 420);
-				i++;
-	}
-/*
-	if((millis() - deb) > 2000){
-				MotorControl::set_cons(speed, 0);
-				deb = millis();
-				speed = -speed;
-	}
-*/
-	/*if((millis() - deb) > temps[i]){
-		if(i == 0){
-			MotorControl::set_cons(speed, 0);
-			deb = millis();
-			i++;
-		}
-		else if(i == 1){
-			MotorControl::set_cons(0, omega);
-			deb = millis();
-			i++;
-		}
-		else if(i == 2){
-			MotorControl::set_cons(speed, 0);
-			deb = millis();
-			i++;
-		}
-		else if(i == 3){
-			MotorControl::set_cons(0, 0);
-			deb = millis();
-		}
-	}*/
 
-	/*analogWrite(MOT1_PWM, 200);
-	digitalWrite(MOT1_DIR, 0);
-	analogWrite(MOT2_PWM, 200);
-	digitalWrite(MOT2_DIR, 1);*/
 
-	//fsmSupervisor.update();
+	fsmSupervisor.update();
 
 	if(controlTime.check()) {
 		Odometry::update();
