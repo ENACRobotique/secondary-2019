@@ -54,6 +54,8 @@ Servo mandibuleDroite = Servo();
 void setup()
 {
 	pinMode(led, OUTPUT);
+	pinMode(MOT_LIDAR, OUTPUT);
+	analogWrite(MOT_LIDAR, 70);
 	/*digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
 	delay(1000);               // wait for a second
 	digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
@@ -76,6 +78,7 @@ void setup()
 	mandibuleGauche.write(MANDIBULE_GAUCHE_HAUT);
 	mandibuleDroite.attach(SERVO1);
 	mandibuleDroite.write(MANDIBULE_DROITE_HAUT);
+
 	//Serial.println(lidarManager.is_ignored2(1254,1533));
 
 }
@@ -87,6 +90,10 @@ int i = 0;
 // The loop function is called in an endless loop
 void loop()
 {
+	/*if (millis() - deb > 4000){
+		mandibuleGauche.write(MANDIBULE_GAUCHE_BAS);
+		mandibuleDroite.write(MANDIBULE_DROITE_BAS);
+	}*/
 /*
 	if (Serial1.available()){
 		lidarManager.update();

@@ -52,6 +52,8 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Metro}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/libraries/Servo}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Secondary2018Code/core/core}&quot;"/>
                                     								
                                 </option>
                                 								

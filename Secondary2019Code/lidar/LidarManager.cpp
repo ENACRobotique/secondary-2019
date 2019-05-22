@@ -55,10 +55,16 @@ bool LidarManager::is_ignored(int lidarAngle){
 	bool ignored = false;
 	if (x < 0 or x >= Map::table_size_x or y < 0 or y >= Map::table_size_y){
 		ignored = true;
+
 	}
 	else if ((Map::obstacle_map[(int)(y * Map::map_pos_y / Map::table_size_y)][(int)(x * Map::map_pos_x / Map::table_size_x)]) & (0b1 << (7 - (int)(x / Map::PAS) % 8)) ){ // comparaison de carte
 		ignored = true;
+		digitalWrite(13, HIGH);
+
 	}
+
+	Serial.println(ignored);
+
 	return(ignored);
 }
 

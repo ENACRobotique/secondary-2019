@@ -26,6 +26,7 @@ const int SERVO2 = 15;
 const int SERVO3 = 37;
 
 const int MOT_GALET_L = 35;
+const int MOT_LIDAR = 35;
 
 const int COLOR = 26;
 const int TIRETTE = 25;
