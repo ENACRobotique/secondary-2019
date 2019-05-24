@@ -23,8 +23,8 @@ MoveToWaterState::MoveToWaterState() {
 	usDistances.front_right = 0;
 	usDistances.rear_left = 0;
 	usDistances.rear_right = 0;
-	angles.angleA = 80;
-	angles.angleB = 100;
+	angles.angleA = 90 - 25;
+	angles.angleB = 90 + 25;
 }
 
 MoveToWaterState::~MoveToWaterState() {
@@ -33,16 +33,16 @@ MoveToWaterState::~MoveToWaterState() {
 
 void MoveToWaterState::enter() {
 	/*digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
-	delay(500);               // wait for a second
+	delay(30000);               // wait for a second
 	digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
 	delay(1000);*/
 	Serial.println("Etat déplacement vers l'eau");
 
 	if(tiretteState.get_color() == GREEN){
-		navigator.move_to(1500,-10000);
+		navigator.move_to(3000, 300);
 	}
 	else{
-		navigator.move_to(1500,-10000);
+		navigator.move_to(3000, 300);
 	}
 	Serial.println("Move to water state");
 
@@ -86,10 +86,10 @@ void MoveToWaterState::reEnter(unsigned long interruptTime){
 	}*/
 	Serial.println("reenter");
 	if(digitalRead(COLOR) == GREEN){
-		navigator.move_to(1500,-10000);
+		navigator.move_to(3000, 300);
 	}
 	else{
-		navigator.move_to(1500,-10000);
+		navigator.move_to(3000, 300);
 	}
 }
 

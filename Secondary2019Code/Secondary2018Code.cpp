@@ -63,8 +63,8 @@ void setup()
 	Serial.begin(115200);
 	Serial1.begin(115200);
 
-	while(!Serial){}
-	//Serial.println("INIT Serial");
+	//while(!Serial){}
+	Serial.println("INIT Serial");
 	Odometry::init();
 	//Serial.println("INIT odom");
 	MotorControl::init();
@@ -75,9 +75,9 @@ void setup()
 	deb = millis();
 	Odometry::set_pos(xdep, ydep, 0);
 	mandibuleGauche.attach(SERVO2);
-	mandibuleGauche.write(MANDIBULE_GAUCHE_HAUT);
+	mandibuleGauche.write(MANDIBULE_GAUCHE_BAS);
 	mandibuleDroite.attach(SERVO1);
-	mandibuleDroite.write(MANDIBULE_DROITE_HAUT);
+	mandibuleDroite.write(MANDIBULE_DROITE_BAS);
 
 	//Serial.println(lidarManager.is_ignored2(1254,1533));
 

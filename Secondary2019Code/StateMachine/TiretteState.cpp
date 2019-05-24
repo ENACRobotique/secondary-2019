@@ -51,11 +51,11 @@ void TiretteState::enter() {
 
 void TiretteState::leave() {
 	if(digitalRead(COLOR) == GREEN){
-		Odometry::set_pos(1500, 1400, 270);
+		Odometry::set_pos(100, 300, 0);
 		COLOR_BEGIN = GREEN;
 	}
 	else{
-		Odometry::set_pos(1500, 1400, 270);
+		Odometry::set_pos(100, 300, 0);
 		COLOR_BEGIN = ORANGE;
 	}
 }
